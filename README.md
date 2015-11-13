@@ -3,7 +3,7 @@
 Assess the usability of any website using automated analysis.
 
 ```
-pagegauge/
+page_gauge_web/
   ├── gulpfile.js
   ├── package.json
   ├── README.md
