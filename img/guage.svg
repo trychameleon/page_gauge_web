@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="572px" height="317px" viewBox="0 0 572 317" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.4.1 (15681) - http://www.bohemiancoding.com/sketch -->
+    <title>guage</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="Gauge" sketch:type="MSArtboardGroup" transform="translate(-16.000000, -26.000000)">
+            <g id="guage" sketch:type="MSLayerGroup" transform="translate(16.000000, 26.000000)">
+                <path d="M287.5002,143.007761 L287.5002,0.0037 C365.7022,0.4057 436.4802,32.1937 487.8792,83.4147 L386.556006,184.737894 C361.175174,159.283128 326.191737,143.408248 287.5002,143.007761 L287.5002,143.007761 Z" id="Path" fill="#FCBF48" sketch:type="MSShapeGroup"></path>
+                <path d="M387.259603,185.448497 L488.5862,84.1219 C539.8072,135.5209 571.5952,206.2989 571.9962,284.5009 L427.999203,284.5009 C427.866396,245.92067 412.348178,210.964831 387.259603,185.448497 L387.259603,185.448497 Z" id="Path" fill="#20BF55" sketch:type="MSShapeGroup"></path>
+                <path d="M186.44749,183.741387 L85.125,82.4194 C136.77,31.4564 207.712,0.0004 286,0.0004 L286.5,0.0004 L286.5,143.000862 C286.333401,143.000287 286.166734,143 286,143 C247.221691,143 212.073898,158.544085 186.44749,183.741387 L186.44749,183.741387 Z" id="Path" fill="#FA9700" sketch:type="MSShapeGroup"></path>
+                <path d="M144.00086,284.5005 L0.0035,284.5005 C0.4075,205.7905 32.6075,134.6015 84.4145,83.1225 L185.736943,184.444943 C160.063464,210.044333 144.135462,245.41216 144.00086,284.5005 L144.00086,284.5005 Z" id="Path" fill="#D62828" sketch:type="MSShapeGroup"></path>
+                <path d="M303.380714,256.504785 L287,87 L270.619286,256.504785 C261.264807,262.089875 255,272.313325 255,284 C255,301.673112 269.326888,316 287,316 C304.673112,316 319,301.673112 319,284 C319,272.313325 312.735193,262.089875 303.380714,256.504785 L303.380714,256.504785 Z" id="Triangle-2" stroke="#F3EED5" fill="#331D0B" sketch:type="MSShapeGroup"></path>
+            </g>
+        </g>
+    </g>
+</svg>
