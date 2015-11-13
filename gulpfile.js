@@ -9,6 +9,7 @@ var concat       = require('gulp-concat')
 var uglify       = require('gulp-uglify')
 var connect      = require('gulp-connect')
 var open         = require('gulp-open')
+var uncss        = require('gulp-uncss')
 
 var Paths = {
   HERE                 : './',
@@ -32,7 +33,7 @@ var Paths = {
     ]
 }
 
-gulp.task('default', ['less-min', 'js-min'])
+gulp.task('default', ['less', 'js-min'])
 
 gulp.task('watch', function () {
   gulp.watch(Paths.LESS, ['less-min']);
@@ -50,22 +51,12 @@ gulp.task('less', function () {
   return gulp.src(Paths.LESS_TOOLKIT_SOURCES)
     .pipe(sourcemaps.init())
     .pipe(less())
+    .pipe(uncss({
+      html: ['index.html', 'http://localhost:9001']
+    }))
     .pipe(autoprefixer())
     .pipe(sourcemaps.write(Paths.HERE))
     .pipe(gulp.dest('dist'))
-})
-
-gulp.task('less-min', ['less'], function () {
-  return gulp.src(Paths.LESS_TOOLKIT_SOURCES)
-    .pipe(sourcemaps.init())
-    .pipe(less())
-    .pipe(minifyCSS())
-    .pipe(autoprefixer())
-    .pipe(rename({
-      suffix: '.min'
-    }))
-    .pipe(sourcemaps.write(Paths.HERE))
-    .pipe(gulp.dest(Paths.DIST))
 })
 
 gulp.task('js', function () {
