@@ -22,16 +22,15 @@
 <body>
 
 <div class="block">
-  <div class="container container-md text-center app-translate-15" data-transition="entrance">
-    <h1 class="block-title m-b-sm app-myphone-brand">PageGauge</h1>
-    <img src="img/pagegauge.svg">
+  <div class="container container-md text-center">
+    <h1><img src="img/pagegauge@2x.png" class="block-brand" alt="PageGuage"></h1>
     <p class="lead m-b-md">Assess the usability of any website using automated analysis.</p>
     
-    <form class="form- m-b">
+    <form class="m-b">
       <div class="input-group input-group-lg">
         <input type="text" class="input-website form-control" placeholder="www.yourwebsite.com">
         <span class="input-group-btn">
-          <button class="btn btn-info" type="button">Go! <span class="icon icon-chevron-thin-right"></span></button>
+          <button class="btn btn-success" type="button">Run Test <span class="icon icon-chevron-thin-right"></span></button>
         </span>
       </div><!-- /input-group -->
     </form>
@@ -44,23 +43,39 @@
   </div>
 </div>
 
-<div class="block text-center">
+<div class="block">
   <div class="container">
-    <div class="panel panel-default p-a-lg">
-      <h2 class="m-y-0">Overall Score</h2>
-
-      <div class="statcard p-a-md text-center">
-        <h1 class="block-title text-success statcard-number">
-          9.1
-        </h1>
-        <span class="statcard-desc">out of 10</span>
+    <div class="row text-center">
+      
+      <div class="col-sm-12 col-md-6 col-md-push-3 app-translate-50" data-transition="entrance">
+        <div class="gauge">
+          <img src="img/gauge.png" class="img-responsive"/>
+        </div>
+        <h2 class="m-y-0">Overall Score</h2>
+        <div class="statcard p-y-md">
+          <h1 class="block-title text-success statcard-number">
+            9.1
+          </h1>
+          <span class="statcard-desc">out of 10</span>
+        </div>
       </div>
 
-      <h4>Share your score!</h4>
-      <div class="likely">
-        <div class="twitter" data-title="Trychameleon.com scored a 9.1 on #pagegaugeio!">Tweet</div>
-        <div class="facebook" data-title="Trychameleon.com scored a 9.1 on #pagegaugeio!">Share</div>
-        <div class="gplus" data-title="Trychameleon.com scored a 9.1 on #pagegaugeio!">Plus</div>
+      <div class="col-sm-6 col-md-3 col-md-pull-6">
+        <div class="p-t-lg">
+          <h3>Add to Leaderboard</h3>
+          <a href="#" class="btn btn-info">Publish</a>
+        </div>
+      </div>
+
+      <div class="col-sm-6 col-md-3">
+        <div class="p-t-lg">
+          <h3>Share your score!</h3>
+          <div class="likely">
+            <div class="twitter" data-title="Trychameleon.com scored a 9.1 on #pagegaugeio!">Tweet</div>
+            <div class="facebook" data-title="Trychameleon.com scored a 9.1 on #pagegaugeio!">Share</div>
+            <div class="gplus" data-title="Trychameleon.com scored a 9.1 on #pagegaugeio!">Plus</div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -105,10 +120,10 @@
         </div>
       </div>
       <div class="col-sm-6 col-lg-3">
-        <div class="panel panel-warning m-b-lg">
+        <div class="panel panel-info m-b-lg">
           <div class="panel-heading text-center"><h4 class="m-y-0 text-uppercase">Navigation</h4></div>
           <div class="statcard p-a-md text-center">
-            <h1 class="statcard-number text-warning">
+            <h1 class="statcard-number text-info">
               5.4
             </h1>
             <span class="statcard-desc">out of 10</span>
@@ -139,10 +154,10 @@
       </div>
 
       <div class="col-sm-6 col-lg-3">
-        <div class="panel panel-default m-b-lg">
+        <div class="panel panel-warning m-b-lg">
           <div class="panel-heading text-center"><h4 class="m-y-0 text-uppercase">Design</h4></div>
           <div class="statcard p-a-md text-center">
-            <h1 class="statcard-number">
+            <h1 class="statcard-number text-warning">
               7.0
             </h1>
             <span class="statcard-desc">Out of 10</span>
@@ -196,7 +211,7 @@
   </div>
 </div>
 
-<div class="block block-bordered-lg">
+<div class="block">
   <div class="container m-b-lg">
     <div class="callout">
       <div class="callout-content">
