@@ -7678,6 +7678,7 @@ h1.block-title {
   background-color: #fff;
   border-radius: 4px;
   border: 1px solid #eeeeee;
+  overflow: hidden;
 }
 .callout-content > p,
 .callout-content > ul {
