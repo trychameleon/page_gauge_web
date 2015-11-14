@@ -970,6 +970,7 @@ h5.text-uppercase {
 .gauge {
   max-width: 360px;
   margin: 0 auto;
+  margin-bottom: 20px;
 }
 
 /* transforms */

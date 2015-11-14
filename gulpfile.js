@@ -36,7 +36,7 @@ var Paths = {
 gulp.task('default', ['less', 'js-min'])
 
 gulp.task('watch', function () {
-  gulp.watch(Paths.LESS, ['less-min']);
+  gulp.watch(Paths.LESS, ['less']);
   gulp.watch(Paths.JS,   ['js-min']);
 })
 
