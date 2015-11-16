@@ -131,3 +131,49 @@ h6, .h6 {
       -ms-transform: translateY(10%);
           transform: translateY(10%);
 }
+
+
+
+
+/* Input field that looks like a button */
+.email-signup-button {
+  width: 80px;
+  color: #FFF;
+  text-align: center;
+  background-color: rgba(0,0,0,.25);
+  border: none;
+  cursor: pointer;
+  outline: none;
+  transition: all .1s linear;
+}
+
+.email-signup-button::-webkit-input-placeholder {
+   color: #FFF;
+   opacity: .8;
+}
+
+.email-signup-button:hover, .email-signup-button:focus {
+  background-color: rgba(0,0,0,.4);
+}
+
+/* after button is clicked */
+.email-signup-button.active {
+  width: 200px;
+  outline: none;
+  color: #FFF;
+  text-align: left;
+  cursor: inherit;
+}
+
+/* Email submit button */
+.email-signup-submit {
+  opacity: 1;
+  padding-left: 3px;
+  transition: all .2s linear;
+  cursor: pointer;
+  display: none;
+}
+
+.email-signup-submit.active {
+  display: inline-block;
+}

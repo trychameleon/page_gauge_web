@@ -1,9 +1,14 @@
 
 $(function () {
   // Autofocus website input
-  $('.input-website').focus();
-})
+  //$('.input-website').focus();
 
+  $('.email-signup-button').click(function() {
+    $(this).addClass("active");
+     $(this).attr('placeholder','Email Address...');
+    $('.email-signup-submit').addClass("active");
+  });
+})
 
 // Move arrow on Gauge
 window.onload = function () {
