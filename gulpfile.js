@@ -52,9 +52,9 @@ gulp.task('less', function () {
   return gulp.src(Paths.LESS_TOOLKIT_SOURCES)
     .pipe(sourcemaps.init())
     .pipe(less())
-    .pipe(uncss({
-      html: ['index.html', 'http://localhost:9001']
-    }))
+    //.pipe(uncss({
+    //  html: ['index.html', 'http://localhost:9001']
+    //}))
     .pipe(autoprefixer())
     .pipe(sourcemaps.write(Paths.HERE))
     .pipe(gulp.dest('dist'))
