@@ -18,7 +18,6 @@
     <link href="dist/pagegauge.css" rel="stylesheet">  
   </head>
 
-
 <body>
 
 <div class="block">
@@ -49,11 +48,11 @@
       
       <div class="col-sm-12 col-md-6 col-md-push-3 app-translate-50" data-transition="entrance">
         <div class="gauge">
-          <img src="img/gauge.svg" class="img-responsive"/>
+          <svg id="gauge" class="img-responsive" viewBox="0 0 575 320"></svg>
         </div>
         <h2 class="m-y-0">Overall Score</h2>
         <div class="statcard p-y-md">
-          <h1 class="block-title text-success statcard-number">
+          <h1 class="block-title text-success statcard-number" id="gauge-score">
             9.1
           </h1>
           <span class="statcard-desc">out of 10</span>
@@ -280,6 +279,7 @@
     <script src="dist/jquery.min.js"></script>
     <script src="dist/toolkit-pagegauge.min.js"></script>
     <script src="dist/likely.min.js"></script>
+    <script src="dist/snap.svg-min.js"></script>
     <script src="dist/application.js"></script>
   </body>
 </html>

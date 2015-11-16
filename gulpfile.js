@@ -33,11 +33,11 @@ var Paths = {
     ]
 }
 
-gulp.task('default', ['less', 'js-min'])
+gulp.task('default', ['server', 'less', 'js'])
 
 gulp.task('watch', function () {
   gulp.watch(Paths.LESS, ['less']);
-  gulp.watch(Paths.JS,   ['js-min']);
+  gulp.watch(Paths.JS,   ['js']);
 })
 
 gulp.task('server', function () {
@@ -47,6 +47,7 @@ gulp.task('server', function () {
   })
 })
 
+// Compile Less and Run UnCSS
 gulp.task('less', function () {
   return gulp.src(Paths.LESS_TOOLKIT_SOURCES)
     .pipe(sourcemaps.init())
@@ -62,14 +63,10 @@ gulp.task('less', function () {
 gulp.task('js', function () {
   return gulp.src(Paths.JS)
     .pipe(concat('toolkit-pagegauge.js'))
-    .pipe(gulp.dest(Paths.DIST))
-})
-
-gulp.task('js-min', ['js'], function () {
-  return gulp.src(Paths.DIST_TOOLKIT_JS)
     .pipe(uglify())
     .pipe(rename({
       suffix: '.min'
     }))
     .pipe(gulp.dest(Paths.DIST))
 })
+
