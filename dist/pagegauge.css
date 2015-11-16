@@ -934,34 +934,6 @@ h1.block-title {
   text-transform: uppercase;
 }
 
-.likely {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  display: inline-block;
-  margin: 0;
-  padding: 0;
-  text-indent: 0!important;
-  list-style: none!important;
-  font-weight: 400;
-  font-family: "Helvetica Neue", Arial, sans-serif;
-  font-size: inherit;
-}
-
-.likely {
-  opacity: 0;
-  font-size: 0 !important;
-}
-
-.likely > * {
-  display: inline-block;
-  visibility: hidden;
-}
-
-.likely {
-  line-height: 20px;
-  margin: 0 -5px -10px;
-}
-
 h4.text-uppercase,
 h5.text-uppercase {
   letter-spacing: .15em;

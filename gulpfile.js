@@ -33,7 +33,7 @@ var Paths = {
     ]
 }
 
-gulp.task('default', ['server', 'less', 'js'])
+gulp.task('default', ['server', 'less', 'js', 'watch'])
 
 gulp.task('watch', function () {
   gulp.watch(Paths.LESS, ['less']);
