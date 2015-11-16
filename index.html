@@ -21,60 +21,90 @@
 
 <body>
 
-<div class="block">
-  <div class="container container-md text-center">
-    <h1><img src="img/pagegauge@2x.png" class="block-brand" alt="PageGuage"></h1>
-    <p class="lead m-b-md">Assess the usability of any website using automated analysis.</p>
-    
-    
-    <form class="m-b">
-      <div class="input-group input-group-lg">
-        <input type="text" class="input-website form-control" placeholder="www.yourwebsite.com" value="www.trychameleon.com">
-        <span class="input-group-btn">
-          <button class="btn btn-success" type="button">Run Test <span class="icon icon-chevron-thin-right"></span></button>
-        </span>
-      </div><!-- /input-group -->
-    </form>
+<div class="block block-fill-height block-inverse" id="run-test">
+  <div class="block-xs-middle">
+    <div class="container container-md text-center">
+      <h1><img src="img/pagegauge-inverse@2x.png" class="block-brand" alt="PageGuage"></h1>
+      <p class="lead m-b-md">Assess the usability of any website using automated analysis.</p>
+      
+      <form class="m-b">
+        <div class="input-group input-group-lg">
+          <input type="text" class="input-website form-control" placeholder="www.yourwebsite.com" value="www.trychameleon.com">
+          <span class="input-group-btn">
+            <button class="btn btn-success" type="button">Run Test <span class="icon icon-chevron-thin-right"></span></button>
+          </span>
+        </div><!-- /input-group -->
+      </form>
 
+      <small class="text-muted">
+        By clicking "Go!" I agree to PageGauge's
+        <a href="#">Terms of service</a>
+      </small>
 
-    <small class="text-muted">
-      By clicking "Go!" I agree to PageGauge's
-      <a href="#">Terms of service</a>
-    </small>
+    </div>
+  </div>
+
+  <!--<div class="container">
+    <div class="callout">
+      <div class="callout-content">
+        <p class="lead">Why test your site with <strong>PageGauge</strong>?</p>
+      </div>
+
+      <div class="callout-secondary">
+        <a href="#faq" class="btn btn-primary">Read FAQ</a>
+      </div>
+    </div>
+  </div>-->
+</div>
+
+<div class="block block-fill-height block-inverse" id="run-test">
+  <div class="block-xs-middle">
+    <div class="container container-md text-center">
+      <h1><img src="img/pagegauge-inverse@2x.png" class="block-brand" alt="PageGuage"></h1>
+      <p class="lead m-b-md">Analyzing...</p>
+
+      <div class="progress m-t-lg">
+        <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 45%">
+          <span class="sr-only">45% Complete</span>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
-<div class="block">
-  <div class="container">
-    <div class="row text-center">
-      
-      <div class="col-sm-12 col-md-6 col-md-push-3 app-translate-50" data-transition="entrance">
-        <div class="gauge">
-          <svg id="gauge" class="img-responsive" viewBox="0 0 575 320"></svg>
+<div class="block block-fill-height" id="score">
+  <div class="block-xs-middle">
+    <div class="container">
+      <div class="row text-center">
+        
+        <div class="col-sm-12 col-md-6 col-md-push-3 app-translate-50" data-transition="entrance">
+          <div class="gauge">
+            <svg id="gauge" class="img-responsive" viewBox="0 0 575 320"></svg>
+          </div>
+          <h2 class="m-y-0">Overall Score</h2>
+          <div class="statcard p-y-md">
+            <h1 class="block-title text-success statcard-number" id="gauge-score">
+              9.1
+            </h1>
+            <span class="statcard-desc">out of 10</span>
+          </div>
         </div>
-        <h2 class="m-y-0">Overall Score</h2>
-        <div class="statcard p-y-md">
-          <h1 class="block-title text-success statcard-number" id="gauge-score">
-            9.1
-          </h1>
-          <span class="statcard-desc">out of 10</span>
-        </div>
-      </div>
 
-      <div class="col-sm-6 col-md-3 col-md-pull-6">
-        <div class="p-t-lg">
-          <h3>Add to Leaderboard</h3>
-          <a href="#" class="btn btn-info">Publish</a>
+        <div class="col-sm-6 col-md-3 col-md-pull-6">
+          <div class="p-t-lg">
+            <h3>Add to Leaderboard</h3>
+            <a href="#" class="btn btn-info">Publish</a>
+          </div>
         </div>
-      </div>
 
-      <div class="col-sm-6 col-md-3">
-        <div class="p-t-lg">
-          <h3>Share your score!</h3>
-          <div class="likely">
-            <div class="twitter" data-title="Trychameleon.com scored a 9.1 on #pagegaugeio!">Tweet</div>
-            <div class="facebook" data-title="Trychameleon.com scored a 9.1 on #pagegaugeio!">Share</div>
-            <div class="gplus" data-title="Trychameleon.com scored a 9.1 on #pagegaugeio!">Plus</div>
+        <div class="col-sm-6 col-md-3">
+          <div class="p-t-lg">
+            <h3>Share your score!</h3>
+            <div class="likely">
+              <div class="twitter" data-title="Trychameleon.com scored a 9.1 on #pagegaugeio!">Tweet</div>
+              <div class="facebook" data-title="Trychameleon.com scored a 9.1 on #pagegaugeio!">Share</div>
+              <div class="gplus" data-title="Trychameleon.com scored a 9.1 on #pagegaugeio!">Plus</div>
+            </div>
           </div>
         </div>
       </div>
@@ -82,7 +112,7 @@
   </div>
 </div>
 
-<div class="block">
+<div class="block block-fill-height" id="report">
   <div class="container">
     <div class="row">
       <div class="col-sm-6 col-lg-3">
@@ -212,22 +242,9 @@
   </div>
 </div>
 
-<div class="block">
-  <div class="container m-b-lg">
-    <div class="callout">
-      <div class="callout-content">
-        <p class="lead">Why test your site with <strong>PageGauge</strong>?</p>
-      </div>
-
-      <div class="callout-secondary">
-        <button class="btn btn-info" data-toggle="collapse" data-target="#collapseFaq" aria-expanded="false" aria-controls="collapseFaq">Read FAQ</button>
-      </div>
-    </div>
-  </div>
-
-
+<div class="block block-fill-height" id="faq">
   <div class="container">
-    <div class="well collapse" id="collapseFaq">
+    <div class="well">
       <div class="row">
         <div class="col-sm-6">
           <ul class="list-unstyled">
@@ -269,6 +286,7 @@
 </div>
 
 
+
 <div class="block p-y-md">
   <div class="container">
     <div class="row">
@@ -277,6 +295,8 @@
       </div>
     </div>
   </div>
+</div>
+
 </div>
     <script src="dist/jquery.min.js"></script>
     <script src="dist/toolkit-pagegauge.min.js"></script>
