@@ -30,7 +30,7 @@ window.onload = function () {
   });
 
 
-
+  // Increment score value from zero
   $({numberValue: 0}).animate({numberValue: score}, {
       duration: 2000,
       easing: 'linear',
