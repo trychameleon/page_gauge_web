@@ -46,7 +46,7 @@
         <div class="input-group input-group-lg">
           <input id="gauge_url" type="text" class="input-website form-control" placeholder="www.yourwebsite.com">
           <span class="input-group-btn">
-            <button id="gauge_button" class="btn btn-success" type="button">Run Test <span class="icon icon-chevron-thin-right"></span></button>
+            <button id="gauge_button" class="btn btn-success" type="submit">Run Test <span class="icon icon-chevron-thin-right"></span></button>
           </span>
         </div><!-- /input-group -->
       </form>
@@ -161,15 +161,15 @@
             <tbody>
               <tr >
                 <td>Responsiveness</td>
-                <td class="text-right">1</td>
+                <td class="text-right" name="isResponsive">1</td>
               </tr>
               <tr>
                 <td>Browsers</td>
-                <td class="text-right">1</td>
+                <td class="text-right" name="browserCompatability">1</td>
               </tr>
               <tr>
                 <td>Auto-playing sounds</td>
-                <td class="text-right">1</td>
+                <td class="text-right" name="autoPlaySounds">1</td>
               </tr>
             </tbody>
           </table>
@@ -198,11 +198,11 @@
               </tr>
               <tr>
                 <td>Depth of hierarchy</td>
-                <td class="text-right text-danger">0</td>
+                <td class="text-right text-danger" name="baseMenuDepth"></td>
               </tr>
               <tr>
                 <td>404 page</td>
-                <td class="text-right text-danger">0</td>
+                <td class="text-right text-danger" name="has404"></td>
               </tr>
             </tbody>
           </table>
@@ -228,11 +228,11 @@
             <tbody>
               <tr>
                 <td>Total content (words)</td>
-                <td class="text-right">1</td>
+                <td class="text-right" name="contentQuality"></td>
               </tr>
               <tr>
                 <td>Range of colors</td>
-                <td class="text-right">.75</td>
+                <td class="text-right" name="hasColorSimplicity"></td>
               </tr>
             </tbody>
           </table>
@@ -257,7 +257,7 @@
             <tbody>
               <tr>
                 <td>Number of actions</td>
-                <td class="text-right">1</td>
+                <td class="text-right" name="tooManyActions"></td>
               </tr>
             </tbody>
           </table>

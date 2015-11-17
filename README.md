@@ -48,5 +48,7 @@ $ npm install
 ```
 
 From here on out, simply run `gulp` from your terminal and you're good to go!
-
+```
+$ gulp
+```
 + `gulp` - recompiles and minifies your theme assets.

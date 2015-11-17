@@ -166,6 +166,12 @@ window.pagegauge = function() {
     },
     completed: function(results) {
       console.log(results);
+
+      results.forEach(function(value, index){
+        for(var name in value) {
+          $('[name=' + name + ']').text(value[name]);
+        }
+      });
     }
   };
 }();
@@ -182,7 +188,7 @@ window.pagegauge.addGauge(function contentQuantity(site) {
   var bodyNoScript = /\<body([\s\S]*?)\<\/body\>/.exec(site.body)[0].replace(/\<script([\s\S]*?)\<\/script\>/g, '').replace(/\son(.*?)\"([\s\S]*?)\"/g, ''),
     wordcount = $(bodyNoScript).text().replace(/\s+/g, " ").split(' ').length,
     score = 1 - _.min([1, (_.max([0, wordcount - 500])/ 1000)]);
-  return Promise.resolve(score);
+  return Promise.resolve({contentQuality: score});
 });
 
 window.pagegauge.addGauge(function (site) {
@@ -201,7 +207,7 @@ window.pagegauge.addGauge(function (site) {
 
       var webKitStyles = _.every(prefixes, 'moz', true) ? 0.5 : 0,
         mozStyles = _.every(prefixes, 'moz', true) ? 0.13 : 0;
-      resolve(startScore + ieTagsPresent + webKitStyles + mozStyles);
+      resolve({browserCompatability: startScore + ieTagsPresent + webKitStyles + mozStyles});
     });
   });
 });
@@ -210,7 +216,7 @@ window.pagegauge.addGauge(function (site) {
 window.pagegauge.addGauge(function baseMenuSize(site) {
   var bodyNoScript = /\<body([\s\S]*?)\<\/body\>/.exec(site.body)[0].replace(/\<script([\s\S]*?)\<\/script\>/g, '').replace(/\son(.*?)\"([\s\S]*?)\"/g, '');
 
-  return Promise.resolve(window.pagegauge.util.getTopMenu($(bodyNoScript)).children.length > 7 ? 0 : 1);
+  return Promise.resolve({baseMenuSize: window.pagegauge.util.getTopMenu($(bodyNoScript)).children.length > 7 ? 0 : 1});
 });
 
 window.pagegauge.addGauge(function baseMenuDepth(site) {
@@ -233,17 +239,17 @@ window.pagegauge.addGauge(function baseMenuDepth(site) {
 
   var score = depth <= 3 ? 1 : depth < 6 ? 0.5 : 0;
 
-  return Promise.resolve(score);
+  return Promise.resolve({baseMenuDepth: score});
 });
 
 pagegauge.addGauge(function bodyLength(site) {
-  return Promise.resolve(site.body.length);
+  return Promise.resolve({bodyLength: site.body.length});
 });
 
 pagegauge.addGauge(function isResponsive(site) {
   return new Promise(function(resolve) {
     pagegauge.util.fetchAllStyles(site, function(styles) {
-      resolve(/@media/.test(styles) ? 'Is Responsive' : 'Is not Responsive')
+      resolve({isResponsive: /@media/.test(styles) ? 'Is Responsive' : 'Is not Responsive' });
     });
   });
 });
@@ -266,7 +272,7 @@ pagegauge.addGauge(function hasColorSimplicity(site) {
 
       console.log('We have colors!', colors);
 
-      resolve('Has #'+Object.keys(colors).length+' colors');
+      resolve({hasColorSimplicity: 'Has #'+Object.keys(colors).length+' colors'});
     });
   });
 });
@@ -287,7 +293,7 @@ pagegauge.addGauge(function has404Page(site) {
         has404 = true;
       }
 
-      resolve(has404 ? 'Has a 404' : 'No 404');
+      resolve({has404: has404 ? 'Has a 404' : 'No 404'});
     });
   });
 });
