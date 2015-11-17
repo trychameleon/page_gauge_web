@@ -35,6 +35,7 @@
   </div>
 </header>
 
+<!-- Run Test Screen -->
 <div class="block block-fill-height block-inverse" id="run-test" style="margin-top: -50px;">
   <div class="block-xs-middle">
     <div class="container container-md text-center">
@@ -57,21 +58,11 @@
 
     </div>
   </div>
-
-  <!--<div class="container">
-    <div class="callout">
-      <div class="callout-content">
-        <p class="lead">Why test your site with <strong>PageGauge</strong>?</p>
-      </div>
-
-      <div class="callout-secondary">
-        <a href="#faq" class="btn btn-primary">Read FAQ</a>
-      </div>
-    </div>
-  </div>-->
 </div>
+<!-- /End Run Test Screen -->
 
-<div class="block block-fill-height block-inverse" id="run-test" style="margin-top: -50px;">
+<!-- Analyzing Screen -->
+<div class="block block-fill-height block-inverse" id="analyze" style="margin-top: -50px;">
   <div class="block-xs-middle">
     <div class="container container-md text-center">
       <h1><img src="img/pagegauge-inverse@2x.png" class="block-brand" alt="PageGuage"></h1>
@@ -90,9 +81,10 @@
     </div>
   </div>
 </div>
+<!-- End Analyzing Screen -->
 
-<div class="block block-fill-height" id="score">
-  <div class="block-xs-middle">
+<!-- Report Screen -->
+<div class="block" id="score">
     <div class="container">
       <div class="row text-center">
         
@@ -128,10 +120,9 @@
         </div>
       </div>
     </div>
-  </div>
 </div>
 
-<div class="block block-fill-height" id="report">
+<div class="block" id="report">
   <div class="container">
     <div class="row">
       <div class="col-sm-6 col-lg-3">
@@ -261,48 +252,60 @@
   </div>
 </div>
 
-<div class="block block-fill-height" id="faq">
+<div class="block" id="faq">
   <div class="container">
-    <div class="well">
-      <div class="row">
-        <div class="col-sm-6">
-          <ul class="list-unstyled">
-            <li class="m-b-lg">
-              <h3>How does PageGauge work?</h3>
-              <p>
-                We compiled the main criteria for website usability from multiple sources and identified the most important. From these we assessed how easy there were to programmatically assess and selected the the most impactful. We then built algorithms to test these things (e.g. is the site responsive, or how many layers deep is it) and assigned scoring criteria for them. When you submit a site to PageGauge we run these tests and present you with your score. 
-              </p>
-            </li>
-            <li class="m-b-lg">
-              <h3>How accurate is it?</h3>
-              <p>
-                It’s extremely accurate to the parameters that we have set - which is why it’s more reliable than subjective analysis by humans. BUT the analysis isn’t very sophisticated, and definitely not as good a proxy for usability as real user tests. We hope to improve on the sophistication of analysis in future, but this is a side project that we wanted to launch and iterate over time. 
-              </p>
-            </li>
-          </ul>
-        </div>
-        <div class="col-sm-6">
-          <ul class="list-unstyled">
+    <div class="callout">
+      <div class="callout-content">
+        <p class="lead">Why test your site with <strong>PageGauge</strong>?</p>
+      </div>
 
-            <li class="m-b-lg">
-              <h3>Why is it free?</h3>
-              <p>
-                This is a side-project by the Chameleon team, designed and built in a single day. Our mission is improved interface usability and while our main product is for improving user onboarding for web applications, we felt this tool could be valuable for lots of teams. We are not charging for this because we don’t have the capacity to handle the responsibility that would bring. 
-              </p>
-            </li>
+      <div class="callout-secondary">
+        <a href="#faq" class="btn btn-primary" data-toggle="collapse" href="#collapseFAQ" aria-expanded="false" aria-controls="collapseFAQ">Read FAQ</a>
+      </div>
+    </div>
+    <div class="collapse" id="collapseFAQ">
+      <div class="well">
+        <div class="row">
+          <div class="col-sm-6">
+            <ul class="list-unstyled">
+              <li class="m-b-lg">
+                <h3>How does PageGauge work?</h3>
+                <p>
+                  We compiled the main criteria for website usability from multiple sources and identified the most important. From these we assessed how easy there were to programmatically assess and selected the the most impactful. We then built algorithms to test these things (e.g. is the site responsive, or how many layers deep is it) and assigned scoring criteria for them. When you submit a site to PageGauge we run these tests and present you with your score. 
+                </p>
+              </li>
+              <li class="m-b-lg">
+                <h3>How accurate is it?</h3>
+                <p>
+                  It’s extremely accurate to the parameters that we have set - which is why it’s more reliable than subjective analysis by humans. BUT the analysis isn’t very sophisticated, and definitely not as good a proxy for usability as real user tests. We hope to improve on the sophistication of analysis in future, but this is a side project that we wanted to launch and iterate over time. 
+                </p>
+              </li>
+            </ul>
+          </div>
+          <div class="col-sm-6">
+            <ul class="list-unstyled">
 
-            <li class="m-b-lg">
-              <h3>How can I make a suggestion?</h3>
-              <p>
-                We would love to hear feedback and we may make some improvements in future. If you have ideas or would even like to participate a v2.0 hackathon please email us at <a href="mailto:hello@pagegauge.io">hello@pagegauge.io</a>.
-              </p>
-            </li>
-          </ul>
+              <li class="m-b-lg">
+                <h3>Why is it free?</h3>
+                <p>
+                  This is a side-project by the Chameleon team, designed and built in a single day. Our mission is improved interface usability and while our main product is for improving user onboarding for web applications, we felt this tool could be valuable for lots of teams. We are not charging for this because we don’t have the capacity to handle the responsibility that would bring. 
+                </p>
+              </li>
+
+              <li class="m-b-lg">
+                <h3>How can I make a suggestion?</h3>
+                <p>
+                  We would love to hear feedback and we may make some improvements in future. If you have ideas or would even like to participate a v2.0 hackathon please email us at <a href="mailto:hello@pagegauge.io">hello@pagegauge.io</a>.
+                </p>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </div>
+<!-- /End Report Screen -->
 
 <footer class="navbar navbar-fixed-bottom navbar-transparent">
   <div class="container-fluid">
