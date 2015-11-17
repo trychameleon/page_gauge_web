@@ -9,13 +9,13 @@
     <meta name="author" content="">
 
     <title>
-      
+
         PageGauge &middot; Assess the usability of any website using automated analysis.
-      
+
     </title>
 
     <link href="http://fonts.googleapis.com/css?family=PT+Sans:700,400" rel="stylesheet">
-    <link href="dist/likely.css" rel="stylesheet">  
+    <link href="dist/likely.css" rel="stylesheet">
     <link href="dist/pagegauge.css" rel="stylesheet">
   </head>
 
@@ -41,12 +41,12 @@
     <div class="container container-md text-center">
       <h1><img src="img/pagegauge-inverse@2x.png" class="block-brand" alt="PageGuage"></h1>
       <p class="lead m-b-md">Assess the usability of any website using automated analysis.</p>
-      
-      <form class="m-b">
+
+      <form id="gauge_url_form" class="m-b">
         <div class="input-group input-group-lg">
-          <input type="text" class="input-website form-control" placeholder="www.yourwebsite.com">
+          <input id="gauge_url" type="text" class="input-website form-control" placeholder="www.yourwebsite.com">
           <span class="input-group-btn">
-            <button class="btn btn-success" type="button">Run Test <span class="icon icon-chevron-thin-right"></span></button>
+            <button id="gauge_button" class="btn btn-success" type="button">Run Test <span class="icon icon-chevron-thin-right"></span></button>
           </span>
         </div><!-- /input-group -->
       </form>
@@ -87,7 +87,7 @@
 <div class="block p-b" id="report">
     <div class="container container-sm text-center">
       <h1><img src="img/pagegauge@2x.png" class="block-brand block-brand-sm" alt="PageGuage"></h1>
-      
+
       <form class="m-b">
         <div class="input-group">
           <input type="text" class="input-website form-control" placeholder="Test Another Site" value="www.trychameleon.com">
@@ -102,7 +102,7 @@
 <div class="block block-bordered-lg">
     <div class="container">
       <div class="row text-center">
-        
+
         <div class="col-sm-12 col-md-6 col-md-push-3 app-translate-50" data-transition="entrance">
           <div class="gauge">
             <svg id="gauge" class="img-responsive" viewBox="0 0 575 320"></svg>
@@ -286,13 +286,13 @@
               <li class="m-b-lg">
                 <h3>How does PageGauge work?</h3>
                 <p>
-                  We compiled the main criteria for website usability from multiple sources and identified the most important. From these we assessed how easy there were to programmatically assess and selected the the most impactful. We then built algorithms to test these things (e.g. is the site responsive, or how many layers deep is it) and assigned scoring criteria for them. When you submit a site to PageGauge we run these tests and present you with your score. 
+                  We compiled the main criteria for website usability from multiple sources and identified the most important. From these we assessed how easy there were to programmatically assess and selected the the most impactful. We then built algorithms to test these things (e.g. is the site responsive, or how many layers deep is it) and assigned scoring criteria for them. When you submit a site to PageGauge we run these tests and present you with your score.
                 </p>
               </li>
               <li class="m-b-lg">
                 <h3>How accurate is it?</h3>
                 <p>
-                  It’s extremely accurate to the parameters that we have set - which is why it’s more reliable than subjective analysis by humans. BUT the analysis isn’t very sophisticated, and definitely not as good a proxy for usability as real user tests. We hope to improve on the sophistication of analysis in future, but this is a side project that we wanted to launch and iterate over time. 
+                  It’s extremely accurate to the parameters that we have set - which is why it’s more reliable than subjective analysis by humans. BUT the analysis isn’t very sophisticated, and definitely not as good a proxy for usability as real user tests. We hope to improve on the sophistication of analysis in future, but this is a side project that we wanted to launch and iterate over time.
                 </p>
               </li>
             </ul>
@@ -303,7 +303,7 @@
               <li class="m-b-lg">
                 <h3>Why is it free?</h3>
                 <p>
-                  This is a side-project by the Chameleon team, designed and built in a single day. Our mission is improved interface usability and while our main product is for improving user onboarding for web applications, we felt this tool could be valuable for lots of teams. We are not charging for this because we don’t have the capacity to handle the responsibility that would bring. 
+                  This is a side-project by the Chameleon team, designed and built in a single day. Our mission is improved interface usability and while our main product is for improving user onboarding for web applications, we felt this tool could be valuable for lots of teams. We are not charging for this because we don’t have the capacity to handle the responsibility that would bring.
                 </p>
               </li>
 
@@ -331,6 +331,7 @@
 </footer>
 
     <script src="dist/jquery.min.js"></script>
+    <script src="dist/lodash.min.js"></script>
     <script src="dist/toolkit-pagegauge.min.js"></script>
     <script src="dist/likely.min.js"></script>
     <script src="dist/snap.svg-min.js"></script>
