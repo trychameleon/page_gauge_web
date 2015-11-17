@@ -7602,6 +7602,10 @@ h1.block-title {
   max-width: 300px;
   margin-bottom: 20px;
 }
+.block-brand-sm {
+  max-width: 200px;
+  margin-bottom: 10px;
+}
 .block .lead {
   font-size: 18px;
 }
@@ -7966,6 +7970,9 @@ h6,
 }
 .container-md {
   max-width: 634px;
+}
+.container-sm {
+  max-width: 400px;
 }
 .gauge {
   max-width: 360px;
