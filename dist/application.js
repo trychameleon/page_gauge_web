@@ -8,7 +8,7 @@ $(function () {
      $(this).attr('placeholder','Email Address...');
     $('.email-signup-submit').addClass("active");
   });
-})
+});
 
 // Move arrow on Gauge
 window.onload = function () {
@@ -185,7 +185,7 @@ window.pagegauge = function() {
       categories = {};
 
       results.forEach(function(value, index){
-        $('[name=' + value.name + ']').text(value.result.name);
+        $('[name=' + value.name + ']').text(value.result.message);
         if(!categories[value.category]){
           categories[value.category] = [];
         }
@@ -193,7 +193,7 @@ window.pagegauge = function() {
       });
 
       _.each(categories, function(value, index){
-        var categoryScore = Math.round((_.reduce(value, function(memo, num){ return memo + num; }, 0)/value.length) * 10)/10;
+        var categoryScore = Math.round((_.reduce(value, function(memo, num){ return memo + num; }, 0)/value.length) * 100)/10;
         $('[name=' + index + ']').text(categoryScore);
       });
     }
