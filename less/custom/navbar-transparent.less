@@ -130,3 +130,21 @@
     }
   }
 }
+
+
+// Simple mobile nav
+.navbar-left  { .pull-left(); }
+.navbar-right {
+  .pull-right();
+  margin-right: -@navbar-padding-horizontal;
+
+  ~ .navbar-right {
+    margin-right: 0;
+  }
+}
+
+.navbar-nav > li { float: left; }
+
+.navbar {
+  height: @navbar-height;
+}
