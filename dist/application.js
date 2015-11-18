@@ -41,6 +41,11 @@ window.onload = function () {
 };
 
 window.pagegauge = function() {
+  var states = {
+    'analyze': '#analyze',
+    'run-tests': '#run-test',
+    'report': '#report'
+  };
   return {
     uid: getUUID(),
     page: {
@@ -104,7 +109,8 @@ window.pagegauge = function() {
         $(body).find('*').filter(function(){
           var possibleNav = false;
           for(var i = 0; i < possibleNavSelectors.length; i++ ){
-            if(this.id.match(possibleNavSelectors[i]) || this.className.match(possibleNavSelectors[i])){
+            if((this.id && this.className.match && this.id.match(possibleNavSelectors[i]))
+              || (this.className && this.className.match &&this.className.match(possibleNavSelectors[i]))){
               possibleNav = true;
             }
           }
@@ -122,6 +128,14 @@ window.pagegauge = function() {
         };
 
         return proudestParentMenu;
+      },
+      goToState: function(state){
+        _.forEach(states, function(item, index){
+          $(item).slideUp();
+        });
+        $(states[state]).slideDown(function(){
+          $(this).css({'display':''});
+        });
       }
     },
     gauges: [],
@@ -154,6 +168,7 @@ window.pagegauge = function() {
     },
     gauge: function(site) {
       var started_gauges = [];
+      pagegauge.util.goToState('analyze');
 
       for(var i = 0; i < this.gauges.length; i++){
         started_gauges.push(this.gauges[i](site));
@@ -166,10 +181,11 @@ window.pagegauge = function() {
     },
     completed: function(results) {
       console.log(results);
+      pagegauge.util.goToState('report');
 
       results.forEach(function(value, index){
         for(var name in value) {
-          $('[name=' + name + ']').text(value[name]);
+          $('[name=' + name + ']').text(value[name].name);
         }
       });
     }
@@ -188,7 +204,7 @@ window.pagegauge.addGauge(function contentQuantity(site) {
   var bodyNoScript = /\<body([\s\S]*?)\<\/body\>/.exec(site.body)[0].replace(/\<script([\s\S]*?)\<\/script\>/g, '').replace(/\son(.*?)\"([\s\S]*?)\"/g, ''),
     wordcount = $(bodyNoScript).text().replace(/\s+/g, " ").split(' ').length,
     score = 1 - _.min([1, (_.max([0, wordcount - 500])/ 1000)]);
-  return Promise.resolve({contentQuality: score});
+  return Promise.resolve({contentQuality: {score: score, name: score }});
 });
 
 window.pagegauge.addGauge(function (site) {
@@ -207,7 +223,8 @@ window.pagegauge.addGauge(function (site) {
 
       var webKitStyles = _.every(prefixes, 'moz', true) ? 0.5 : 0,
         mozStyles = _.every(prefixes, 'moz', true) ? 0.13 : 0;
-      resolve({browserCompatability: startScore + ieTagsPresent + webKitStyles + mozStyles});
+      numberscore = startScore + ieTagsPresent + webKitStyles + mozStyles;
+      resolve({browserCompatability: {score: numberscore, name: numberscore}});
     });
   });
 });
@@ -216,7 +233,7 @@ window.pagegauge.addGauge(function (site) {
 window.pagegauge.addGauge(function baseMenuSize(site) {
   var bodyNoScript = /\<body([\s\S]*?)\<\/body\>/.exec(site.body)[0].replace(/\<script([\s\S]*?)\<\/script\>/g, '').replace(/\son(.*?)\"([\s\S]*?)\"/g, '');
 
-  return Promise.resolve({baseMenuSize: window.pagegauge.util.getTopMenu($(bodyNoScript)).children.length > 7 ? 0 : 1});
+  return Promise.resolve({baseMenuSize: window.pagegauge.util.getTopMenu($(bodyNoScript)).children.length > 7 ? {score: 0, name: 0} : {score: 1, name: 1}});
 });
 
 window.pagegauge.addGauge(function baseMenuDepth(site) {
@@ -237,7 +254,7 @@ window.pagegauge.addGauge(function baseMenuDepth(site) {
   };
   depth = testMenuChildrenDepth(proudestParentMenu);
 
-  var score = depth <= 3 ? 1 : depth < 6 ? 0.5 : 0;
+  var score = depth <= 3 ? {score: 1, name: 'good'} : depth < 6 ? {score: 0.5, name: 'okay'} : {score: 0, name: 'not great'};
 
   return Promise.resolve({baseMenuDepth: score});
 });
@@ -249,7 +266,7 @@ pagegauge.addGauge(function bodyLength(site) {
 pagegauge.addGauge(function isResponsive(site) {
   return new Promise(function(resolve) {
     pagegauge.util.fetchAllStyles(site, function(styles) {
-      resolve({isResponsive: /@media/.test(styles) ? 'Is Responsive' : 'Is not Responsive' });
+      resolve({isResponsive: /@media/.test(styles) ? {score: 0, name: 'Is Responsive'} : {score: 0, name: 'Is Not Responsive'} });
     });
   });
 });
@@ -257,7 +274,8 @@ pagegauge.addGauge(function isResponsive(site) {
 pagegauge.addGauge(function hasColorSimplicity(site) {
   return new Promise(function(resolve) {
     pagegauge.util.fetchAllStyles(site, function(styles) {
-      var colors = {},
+      var numberscore,
+        colors = {},
         hexes = styles.match(/#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})/g) || [],
         rgbs = styles.match(/rgba?\(\d+,\s*\d+,\s*\d+(?:,\s*\d+(?:\.\d+)?)?\)/g) || [];
 
@@ -271,8 +289,9 @@ pagegauge.addGauge(function hasColorSimplicity(site) {
       }
 
       console.log('We have colors!', colors);
+      numberscore = _.min([1, _.max([0, (colors - 50)])/150]);
 
-      resolve({hasColorSimplicity: 'Has #'+Object.keys(colors).length+' colors'});
+      resolve({hasColorSimplicity: {score: numberscore, name: 'Has #'+Object.keys(colors).length+' colors'}});
     });
   });
 });
@@ -293,7 +312,7 @@ pagegauge.addGauge(function has404Page(site) {
         has404 = true;
       }
 
-      resolve({has404: has404 ? 'Has a 404' : 'No 404'});
+      resolve({has404: has404 ? {score: 1, name: 'Has a 404'} : {score: 0, name: 'No 404'}});
     });
   });
 });
