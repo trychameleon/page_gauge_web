@@ -182,11 +182,19 @@ window.pagegauge = function() {
     completed: function(results) {
       console.log(results);
       pagegauge.util.goToState('report');
+      categories = {};
 
       results.forEach(function(value, index){
-        for(var name in value) {
-          $('[name=' + name + ']').text(value[name].name);
+        $('[name=' + value.name + ']').text(value.result.name);
+        if(!categories[value.category]){
+          categories[value.category] = [];
         }
+        categories[value.category].push(value.result.score);
+      });
+
+      _.each(categories, function(value, index){
+        var categoryScore = Math.round((_.reduce(value, function(memo, num){ return memo + num; }, 0)/value.length) * 10)/10;
+        $('[name=' + index + ']').text(categoryScore);
       });
     }
   };
@@ -204,7 +212,7 @@ window.pagegauge.addGauge(function contentQuantity(site) {
   var bodyNoScript = /\<body([\s\S]*?)\<\/body\>/.exec(site.body)[0].replace(/\<script([\s\S]*?)\<\/script\>/g, '').replace(/\son(.*?)\"([\s\S]*?)\"/g, ''),
     wordcount = $(bodyNoScript).text().replace(/\s+/g, " ").split(' ').length,
     score = 1 - _.min([1, (_.max([0, wordcount - 500])/ 1000)]);
-  return Promise.resolve({contentQuality: {score: score, name: score }});
+  return Promise.resolve({name: 'contentQuality', category: 'design', result: {score: score, message: score }});
 });
 
 window.pagegauge.addGauge(function (site) {
@@ -224,7 +232,7 @@ window.pagegauge.addGauge(function (site) {
       var webKitStyles = _.every(prefixes, 'moz', true) ? 0.5 : 0,
         mozStyles = _.every(prefixes, 'moz', true) ? 0.13 : 0;
       numberscore = startScore + ieTagsPresent + webKitStyles + mozStyles;
-      resolve({browserCompatability: {score: numberscore, name: numberscore}});
+      resolve({name: 'browserCompatability', category: 'accessibility', result: {score: numberscore, message: numberscore}});
     });
   });
 });
@@ -233,7 +241,7 @@ window.pagegauge.addGauge(function (site) {
 window.pagegauge.addGauge(function baseMenuSize(site) {
   var bodyNoScript = /\<body([\s\S]*?)\<\/body\>/.exec(site.body)[0].replace(/\<script([\s\S]*?)\<\/script\>/g, '').replace(/\son(.*?)\"([\s\S]*?)\"/g, '');
 
-  return Promise.resolve({baseMenuSize: window.pagegauge.util.getTopMenu($(bodyNoScript)).children.length > 7 ? {score: 0, name: 0} : {score: 1, name: 1}});
+  return Promise.resolve({name: 'baseMenuSize', category: 'navigation', result: window.pagegauge.util.getTopMenu($(bodyNoScript)).children.length > 7 ? {score: 0, message: 0} : {score: 1, message: 1}});
 });
 
 window.pagegauge.addGauge(function baseMenuDepth(site) {
@@ -254,19 +262,23 @@ window.pagegauge.addGauge(function baseMenuDepth(site) {
   };
   depth = testMenuChildrenDepth(proudestParentMenu);
 
-  var score = depth <= 3 ? {score: 1, name: 'good'} : depth < 6 ? {score: 0.5, name: 'okay'} : {score: 0, name: 'not great'};
+  var score = depth <= 3 ? {score: 1, message: 'good'} : depth < 6 ? {score: 0.5, message: 'okay'} : {score: 0, message: 'not great'};
 
-  return Promise.resolve({baseMenuDepth: score});
+  return Promise.resolve({name: 'baseMenuDepth', category: 'navigation', result: score});
 });
 
 pagegauge.addGauge(function bodyLength(site) {
-  return Promise.resolve({bodyLength: site.body.length});
+  return Promise.resolve({name: 'bodyLength', category: 'none', result: site.body.length});
 });
 
 pagegauge.addGauge(function isResponsive(site) {
   return new Promise(function(resolve) {
     pagegauge.util.fetchAllStyles(site, function(styles) {
-      resolve({isResponsive: /@media/.test(styles) ? {score: 0, name: 'Is Responsive'} : {score: 0, name: 'Is Not Responsive'} });
+      resolve({
+        name: 'isResponsive',
+        category: 'accessibility',
+        result: /@media/.test(styles) ? {score: 0, message: 'Is Responsive'} : {score: 0, message: 'Is Not Responsive'}
+      });
     });
   });
 });
@@ -291,13 +303,9 @@ pagegauge.addGauge(function hasColorSimplicity(site) {
       console.log('We have colors!', colors);
       numberscore = _.min([1, _.max([0, (colors - 50)])/150]);
 
-      resolve({hasColorSimplicity: {score: numberscore, name: 'Has #'+Object.keys(colors).length+' colors'}});
+      resolve({name: 'hasColorSimplicity', category: 'design', result: {score: numberscore, message: 'Has #'+Object.keys(colors).length+' colors'}});
     });
   });
-});
-
-pagegauge.addGauge(function tooManyActions() {
-
 });
 
 pagegauge.addGauge(function has404Page(site) {
@@ -312,7 +320,7 @@ pagegauge.addGauge(function has404Page(site) {
         has404 = true;
       }
 
-      resolve({has404: has404 ? {score: 1, name: 'Has a 404'} : {score: 0, name: 'No 404'}});
+      resolve({has404: 'has404', category: 'navigation', result: has404 ? {score: 1, message: 'Has a 404'} : {score: 0, message: 'No 404'}});
     });
   });
 });
