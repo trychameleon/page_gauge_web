@@ -10,35 +10,6 @@ $(function () {
   });
 });
 
-// Move arrow on Gauge
-window.onload = function () {
-  var s = Snap("#gauge"),
-      score = $('#gauge-score').text();
-
-  Snap.load("img/gauge.svg", function (f) {
-
-    var g = f.select("g"),
-        arrow = f.select("#arrow");
-        s.append(g);
-
-    function spinGauge(){
-      r = (score / 10) * 180;
-      arrow.animate( { transform: "r" + r + ", 287, 285" }, 2000 );
-    };
-
-    spinGauge();
-  });
-
-
-  // Increment score value from zero
-  $({numberValue: 0}).animate({numberValue: score}, {
-      duration: 2000,
-      easing: 'linear',
-      step: function() {
-        $('#gauge-score').text(this.numberValue.toFixed(1));
-      }
-  });
-};
 
 window.pagegauge = function() {
   var states = {
@@ -136,6 +107,29 @@ window.pagegauge = function() {
         $(states[state]).slideDown(function(){
           $(this).css({'display':''});
         });
+      },
+      // Move arrow on Gauge
+      spinGauge: function(score) {
+        var s = Snap("#gauge"),
+          spinGauge;
+
+        Snap.load("img/gauge.svg", function (f) {
+
+          var g = f.select("g"),
+            arrow = f.select("#arrow");
+          s.append(g);
+
+          // Increment score value from zero
+          $({numberValue: 0}).animate({numberValue: score}, {
+            duration: 2000,
+            easing: 'linear',
+            step: function() {
+              $('#gauge-score').text(this.numberValue.toFixed(1));
+            }
+          });
+          r = (score / 10) * 180;
+          arrow.animate( { transform: "r" + r + ", 287, 285" }, 2000 );
+        });
       }
     },
     gauges: [],
@@ -187,7 +181,8 @@ window.pagegauge = function() {
           navigation: 3,
           design: 2,
           interactions: 1
-        };
+        },
+        overallScore;
 
       _.each(results, function(value) {
         $('[name=' + value.name + ']').text(value.result.message);
@@ -203,7 +198,9 @@ window.pagegauge = function() {
         score = score + ((importance[key] || 0)*(categoryScore/10));
       });
 
-      $('#gauge-score').text((Math.round(score*100)/100).toString().replace(/0+$/, ''));
+      overallScore = (Math.round(score*100)/100).toString().replace(/0+$/, '')
+      $('#gauge-score').text(overallScore);
+      window.pagegauge.util.spinGauge(overallScore)
     }
   };
 }();
