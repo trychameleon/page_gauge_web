@@ -13,9 +13,9 @@ $(function () {
 
 window.pagegauge = function() {
   var states = {
-    'analyze': '#analyze',
+    analyze: '#analyze',
     'run-tests': '#run-test',
-    'report': '#report'
+    report: '#report'
   };
   var panelStates = {
     danger: {panel: 'panel-danger', text: 'text-danger'},
@@ -31,6 +31,8 @@ window.pagegauge = function() {
       responses: [],
       content: ''
     },
+    body: { },
+    $body: { },
     util: {
       uuid: getUUID,
       fetchAllStyles: function(site, done) {
@@ -79,18 +81,29 @@ window.pagegauge = function() {
         return url + href;
       },
       sanitizedBody: function(site) {
-        return /\<body([\s\S]*?)\<\/body\>/.exec(site.body)[0].
-          replace(/\<script([\s\S]*?)\<\/script\>/g, '').
-          replace(/\son(.*?)\"([\s\S]*?)\"/g, '');
+        var body = pagegauge.body[site.id];
+
+        if(!body) {
+          body = /\<body([\s\S]*?)\<\/body\>/.exec(site.body)[0].
+            replace(/\<script([\s\S]*?)\<\/script\>/g, '').
+            replace(/\son(.*?)\"([\s\S]*?)\"/g, '');
+        }
+
+        return pagegauge.body[site.id] = body;
       },
       sanitizedAppendedBody: function(site) {
-        var $body = $(pagegauge.util.sanitizedBody(site)),
-          $div = $('<div style="display: none; visibility: hidden"></div>');
+        var $body = pagegauge.$body[site.id];
 
-        $div.append($body);
-        $div.appendTo(document.body);
+        if(!$body) {
+          var $div = $('<div style="display: none; visibility: hidden"></div>');
 
-        return $body;
+          $body = $(pagegauge.util.sanitizedBody(site));
+
+          $div.append($body);
+          $div.appendTo(document.body);
+        }
+
+        return pagegauge.$body[site.id] = $body;
       },
       getTopMenu: function(body) {
         var possibleNavSelectors = ['nav', 'menu'],
@@ -269,27 +282,42 @@ window.pagegauge.addGauge(function contentQuantity(site) {
   return Promise.resolve({name: 'contentQuality', category: 'design', result: {score: score, message: message }});
 });
 
-window.pagegauge.addGauge(function (site) {
+window.pagegauge.addGauge(function browserCompatibility(site) {
   var startScore = 0.2,
     ieTagsPresent = /[\s]*\[if[\s]*IE/g.exec(site.body);
 
-  return new Promise(function browserCompatability(resolve) {
+  return new Promise(function(resolve) {
     pagegauge.util.fetchAllStyles(site, function(styles) {
-      var prefixes = ["linear-gradient", "box-shadow", "border-radius"];
+      var prefixes = ['linear-gradient', 'box-shadow', 'border-radius'];
       prefixes = prefixes.map(function(value, index) {
         return {
-          'webkit': new RegExp(value, "g").test(styles) == new RegExp('-webkit-' + value, "g").test(styles),
-          'moz': new RegExp(value, "g").test(styles) == new RegExp('-webkit-' + value, "g").test(styles)
+          webkit: new RegExp(value, 'g').test(styles) == /-webkit-/g.test(styles),
+          moz: new RegExp(value, 'g').test(styles) == /-moz-/g.test(styles)
         };
       });
 
       var webKitStyles = _.every(prefixes, 'moz', true) ? 0.5 : 0,
         mozStyles = _.every(prefixes, 'moz', true) ? 0.13 : 0;
-      numberscore = startScore + ieTagsPresent + webKitStyles + mozStyles;
-      message = 'Site compatible with '+(numberscore*100)+'% of common browsers';
-      resolve({name: 'browserCompatability', category: 'accessibility', result: {score: numberscore, message: message}});
+
+      var score = startScore + ieTagsPresent + webKitStyles + mozStyles,
+        message = 'Site compatible with '+(score*100)+'% of common browsers';
+
+      resolve({name: 'browserCompatibility', category: 'accessibility', result: {score: score, message: message}});
     });
   });
+});
+
+window.pagegauge.addGauge(function autoPlaySounds(site) {
+  var $body = $(pagegauge.util.sanitizedBody(site)),
+    score = 1, message = 'No automatically playing sounds',
+    plays = false;
+
+  if($body.find('audio[autoplay]').length) {
+    score = 0;
+    message = 'Found an audio file that plays automatically';
+  }
+
+  return Promise.resolve({name: 'autoPlaySounds', category: 'accessibility', result: {score: score, message: message}});
 });
 
 window.pagegauge.addGauge(function baseMenuSize(site) {
