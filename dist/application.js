@@ -78,12 +78,15 @@ window.pagegauge = function() {
 
         return url + href;
       },
-      getTopMenu: function(body){
+      sanitizedBody: function(site) {
+        return /\<body([\s\S]*?)\<\/body\>/.exec(site.body)[0].replace(/\<script([\s\S]*?)\<\/script\>/g, '').replace(/\son(.*?)\"([\s\S]*?)\"/g, '');
+      },
+      getTopMenu: function(body) {
         var possibleNavSelectors = ['nav', 'menu'],
           possibleNavs = [],
           proudestParentMenu;
 
-        $(body).find('*').filter(function(){
+        $(body).find('*').filter(function() {
           var possibleNav = false;
           for(var i = 0; i < possibleNavSelectors.length; i++ ){
             if((this.id && this.className.match && this.id.match(possibleNavSelectors[i]))
@@ -247,8 +250,8 @@ function getUUID() {
 }
 
 window.pagegauge.addGauge(function contentQuantity(site) {
-  var bodyNoScript = /\<body([\s\S]*?)\<\/body\>/.exec(site.body)[0].replace(/\<script([\s\S]*?)\<\/script\>/g, '').replace(/\son(.*?)\"([\s\S]*?)\"/g, ''),
-    wordcount = $(bodyNoScript).text().replace(/\s+/g, " ").split(' ').length,
+  var body = pagegauge.util.sanitizedBody(site),
+    wordcount = $(body).text().replace(/\s+/g, " ").split(' ').length,
     score = 1 - _.min([1, (_.max([0, wordcount - 500])/ 1000)]),
     message = score == 0 ? 'Site has 2000 or more words' : score <= 0.5 ? 'Site has 1000 or more words' : 'Site has an appropriate amount of copy';
 
@@ -279,14 +282,14 @@ window.pagegauge.addGauge(function (site) {
 });
 
 window.pagegauge.addGauge(function baseMenuSize(site) {
-  var bodyNoScript = /\<body([\s\S]*?)\<\/body\>/.exec(site.body)[0].replace(/\<script([\s\S]*?)\<\/script\>/g, '').replace(/\son(.*?)\"([\s\S]*?)\"/g, '');
+  var body = pagegauge.util.sanitizedBody(site);
 
-  return Promise.resolve({name: 'baseMenuSize', category: 'navigation', result: $(window.pagegauge.util.getTopMenu($(bodyNoScript))).children().length > 7 ? {score: 0, message: 'Number of site menu bar options too high'} : {score: 1, message: 'Number of site menu bar options acceptable'}});
+  return Promise.resolve({name: 'baseMenuSize', category: 'navigation', result: $(window.pagegauge.util.getTopMenu($(body))).children().length > 7 ? {score: 0, message: 'Number of site menu bar options too high'} : {score: 1, message: 'Number of site menu bar options acceptable'}});
 });
 
 window.pagegauge.addGauge(function baseMenuDepth(site) {
-  var bodyNoScript = /\<body([\s\S]*?)\<\/body\>/.exec(site.body)[0].replace(/\<script([\s\S]*?)\<\/script\>/g, '').replace(/\son(.*?)\"([\s\S]*?)\"/g, ''),
-    proudestParentMenu = window.pagegauge.util.getTopMenu($(bodyNoScript)),
+  var body = pagegauge.util.sanitizedBody(site),
+    proudestParentMenu = window.pagegauge.util.getTopMenu($(body)),
     depth;
 
   //from the proudestParent
@@ -321,26 +324,40 @@ pagegauge.addGauge(function isResponsive(site) {
 
 pagegauge.addGauge(function hasColorSimplicity(site) {
   return new Promise(function(resolve) {
-    pagegauge.util.fetchAllStyles(site, function(styles) {
-      var numberscore,
-        colors = {},
-        hexes = styles.match(/#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})/g) || [],
-        rgbs = styles.match(/rgba?\(\d+,\s*\d+,\s*\d+(?:,\s*\d+(?:\.\d+)?)?\)/g) || [],
-        message;
 
-      hexes = hexes.concat.apply(hexes, rgbs);
+    var $body = $(pagegauge.util.sanitizedBody(site)),
+      $div = $('<div style="display: none; visibility: hidden"></div>'),
+      score = 0, message = 'A very high number of colors',
+      colors = {};
 
-      for(var i=0; i<hexes.length; i++) {
-        var key = hexes[i].toLowerCase();
+    $div.append($body);
+    $body.appendTo(document.body);
 
-        colors[key] || (colors[key] = 0);
-        colors[key] += 1;
+    $body.find('*').each(function() {
+      var $this = $(this),
+        color = $this.css('color'),
+        background = $this.css('background-color');
+
+      if(color) {
+        colors[color] || (colors[color] = 0);
+        colors[color] += 1
       }
 
-      numberscore = _.min([1, _.max([0, (colors - 50)])/150]);
-      message = numberscore == 0 ? 'Site has 150 or more colors' : numberscore <= 0.5 ? 'Site has 50 or more words' : 'Site has an appropriate color count';
-      resolve({name: 'hasColorSimplicity', category: 'design', result: {score: numberscore, message: message}});
+      if(background) {
+        colors[background] || (colors[background] = 0);
+        colors[background] += 1
+      }
     });
+
+    var length = (Object.keys(colors));
+
+    if(length < 8) { score = 1.0; message = 'Low number of colors'; }
+    else if(score < 16) { score = 0.75; message = 'A suitable number of colors'; }
+    else if(score < 24) { score = 0.50; message = 'A higher than normal number of colors'; }
+    else if(score < 32) { score = 0.25; message = 'A high number of colors';}
+
+    resolve({name: 'hasColorSimplicity', category: 'design', result: {score: score, message: message}});
+    //});
   });
 });
 
