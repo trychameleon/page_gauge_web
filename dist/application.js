@@ -79,7 +79,18 @@ window.pagegauge = function() {
         return url + href;
       },
       sanitizedBody: function(site) {
-        return /\<body([\s\S]*?)\<\/body\>/.exec(site.body)[0].replace(/\<script([\s\S]*?)\<\/script\>/g, '').replace(/\son(.*?)\"([\s\S]*?)\"/g, '');
+        return /\<body([\s\S]*?)\<\/body\>/.exec(site.body)[0].
+          replace(/\<script([\s\S]*?)\<\/script\>/g, '').
+          replace(/\son(.*?)\"([\s\S]*?)\"/g, '');
+      },
+      sanitizedAppendedBody: function(site) {
+        var $body = $(pagegauge.util.sanitizedBody(site)),
+          $div = $('<div style="display: none; visibility: hidden"></div>');
+
+        $div.append($body);
+        $div.appendTo(document.body);
+
+        return $body;
       },
       getTopMenu: function(body) {
         var possibleNavSelectors = ['nav', 'menu'],
@@ -324,14 +335,9 @@ pagegauge.addGauge(function isResponsive(site) {
 
 pagegauge.addGauge(function hasColorSimplicity(site) {
   return new Promise(function(resolve) {
-
-    var $body = $(pagegauge.util.sanitizedBody(site)),
-      $div = $('<div style="display: none; visibility: hidden"></div>'),
+    var $body = pagegauge.util.sanitizedAppendedBody(site),
       score = 0, message = 'A very high number of colors',
       colors = {};
-
-    $div.append($body);
-    $body.appendTo(document.body);
 
     $body.find('*').each(function() {
       var $this = $(this),
@@ -357,7 +363,31 @@ pagegauge.addGauge(function hasColorSimplicity(site) {
     else if(score < 32) { score = 0.25; message = 'A high number of colors';}
 
     resolve({name: 'hasColorSimplicity', category: 'design', result: {score: score, message: message}});
-    //});
+  });
+});
+
+pagegauge.addGauge(function numberOfActions(site) {
+  return new Promise(function(resolve) {
+    var $body = $(pagegauge.util.sanitizedBody(site)),
+      score = 0, message = 'A high number of actions',
+      actions = {};
+
+    $body.find('a').each(function() {
+      var $this = $(this),
+        href = $this.attr('href');
+
+      if(href) {
+        actions[href] || (actions[href] = 0);
+        actions[href] += 1;
+      }
+    });
+
+    var length = (Object.keys(actions));
+
+    if(length < 12) { score = 1.0; message = 'Low number of actions'; }
+    else if(score < 24) { score = 0.5; message = 'A suitable number of actions'; }
+
+    resolve({name: 'numberOfActions', category: 'design', result: {score: score, message: message}});
   });
 });
 
@@ -365,11 +395,14 @@ pagegauge.addGauge(function has404Page(site) {
   return new Promise(function(resolve) {
     var url = pagegauge.util.buildUrl(site, site.uid);
 
-    pagegauge.createSite(url, function(site404) {
-      var has404Text = /sorry|error|404|mistake|not found|exist/i,
+    pagegauge.createSite(url, function(data404) {
+      var site404 = data404.site,
+        has404Text = /sorry|error|404|mistake|not found|exist|oops/i,
         has404 = false;
 
-      if(site404.code === 404 && has404Text.test(site.body)) {
+      console.log(site404);
+
+      if(site404.code == 404 && has404Text.test(site404.body)) {
         has404 = true;
       }
 
