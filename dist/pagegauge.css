@@ -7668,7 +7668,7 @@ h1.block-title {
 }
 @media screen and (min-width: 768px) {
   .block {
-    padding: 30px 0;
+    padding: 10px 0;
   }
   .block:not(.block-secondary) .lead {
     font-size: 21px;
