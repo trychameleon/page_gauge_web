@@ -42,11 +42,11 @@
       <h1><img src="img/pagegauge-inverse@2x.png" class="block-brand" alt="PageGuage"></h1>
       <p class="lead m-b-md">Assess the usability of any website using automated analysis.</p>
 
-      <form id="gauge_url_form" class="m-b">
+      <form id="gauge_url_form" class="m-b gauge_url_form">
         <div class="input-group input-group-lg">
-          <input id="gauge_url" type="text" class="input-website form-control" placeholder="www.yourwebsite.com">
+          <input id="gauge_url" type="text" class="input-website form-control gauge_url" placeholder="www.yourwebsite.com">
           <span class="input-group-btn">
-            <button id="gauge_button" class="btn btn-success" type="submit">Run Test <span class="icon icon-chevron-thin-right"></span></button>
+            <button id="gauge_button" class="btn btn-success gauge_button" type="submit">Run Test <span class="icon icon-chevron-thin-right"></span></button>
           </span>
         </div><!-- /input-group -->
       </form>
@@ -84,11 +84,11 @@
       <div class="container container-sm text-center">
         <h1><img src="img/pagegauge@2x.png" class="block-brand block-brand-sm" alt="PageGuage"></h1>
 
-        <form class="m-b">
+        <form class="m-b gauge_url_form">
           <div class="input-group">
-            <input type="text" class="input-website form-control" placeholder="Test Another Site" value="www.trychameleon.com">
+            <input type="text" class="input-website form-control gauge_url" placeholder="Test Another Site" value="www.trychameleon.com">
             <span class="input-group-btn">
-              <button class="btn btn-success" type="button">Run Test <span class="icon icon-chevron-thin-right"></span></button>
+              <button class="btn btn-success gauge_button" type="submit">Run Test <span class="icon icon-chevron-thin-right"></span></button>
             </span>
           </div><!-- /input-group -->
         </form>
@@ -146,24 +146,15 @@
               <span class="statcard-desc">out of 10</span>
             </div>
             <table class="table">
-              <thead>
-                <tr>
-                  <th><h5 class="text-uppercase">Criteria</h5></th>
-                  <th class="text-right"><h5 class="text-uppercase">Score</h5></th>
-                </tr>
-              </thead>
               <tbody>
-                <tr >
-                  <td>Responsiveness</td>
-                  <td class="text-right" name="isResponsive">1</td>
+                <tr>
+                  <td name="isResponsive"></td>
                 </tr>
                 <tr>
-                  <td>Browsers</td>
-                  <td class="text-right" name="browserCompatability">1</td>
+                  <td name="browserCompatability"></td>
                 </tr>
                 <tr>
-                  <td>Auto-playing sounds</td>
-                  <td class="text-right" name="autoPlaySounds">0</td>
+                  <td name="autoPlaySounds"></td>
                 </tr>
               </tbody>
             </table>
@@ -177,24 +168,15 @@
               <span class="statcard-desc">out of 10</span>
             </div>
             <table class="table">
-              <thead>
-                <tr>
-                  <th><h5 class="text-uppercase">Criteria</h5></th>
-                  <th class="text-right"><h5 class="text-uppercase">Score</h5></th>
-                </tr>
-              </thead>
               <tbody>
                 <tr>
-                  <td>Number of menu items</td>
-                  <td class="text-right">4</td>
+                  <td name="baseMenuSize"></td>
                 </tr>
                 <tr>
-                  <td>Depth of hierarchy</td>
-                  <td class="text-right text-danger" name="baseMenuDepth"></td>
+                  <td name="baseMenuDepth"></td>
                 </tr>
                 <tr>
-                  <td>404 page</td>
-                  <td class="text-right text-danger" name="has404"></td>
+                  <td name="has404"></td>
                 </tr>
               </tbody>
             </table>
@@ -202,27 +184,19 @@
         </div>
 
         <div class="col-sm-6 col-lg-3">
-          <div class="panel panel-warning m-b-lg">
+          <div class="panel m-b-lg">
             <div class="panel-heading text-center"><h4 class="m-y-0 text-uppercase">Design</h4></div>
             <div class="statcard p-a-md text-center">
               <h1 class="statcard-number text-warning" name="design"></h1>
               <span class="statcard-desc">Out of 10</span>
             </div>
             <table class="table">
-              <thead>
-                <tr>
-                  <th><h5 class="text-uppercase">Criteria</h5></th>
-                  <th class="text-right"><h5 class="text-uppercase">Score</h5></th>
-                </tr>
-              </thead>
               <tbody>
                 <tr>
-                  <td>Total content (words)</td>
-                  <td class="text-right" name="contentQuality"></td>
+                  <td name="contentQuality"></td>
                 </tr>
                 <tr>
-                  <td>Range of colors</td>
-                  <td class="text-right" name="hasColorSimplicity"></td>
+                  <td name="hasColorSimplicity"></td>
                 </tr>
               </tbody>
             </table>
@@ -236,16 +210,9 @@
               <span class="statcard-desc">out of 10</span>
             </div>
             <table class="table">
-              <thead>
-                <tr>
-                  <th><h5 class="text-uppercase">Criteria</h5></th>
-                  <th class="text-right"><h5 class="text-uppercase">Score</h5></th>
-                </tr>
-              </thead>
               <tbody>
                 <tr>
-                  <td>Number of actions</td>
-                  <td class="text-right" name="tooManyActions"></td>
+                  <td name="tooManyActions"></td>
                 </tr>
               </tbody>
             </table>

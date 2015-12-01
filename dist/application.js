@@ -140,40 +140,42 @@ window.pagegauge = function() {
       },
       // Move arrow on Gauge
       spinGauge: function(score) {
-        var s = Snap("#gauge"),
-          spinGauge;
+        var r,
+          s = Snap("#gauge"),
+          g = pagegauge.gaugeArrow.select("g"),
+          arrow = pagegauge.gaugeArrow.select("#arrow") || s.select('#arrow');;
 
-        Snap.load("img/gauge.svg", function (f) {
+        arrow.transform('r', 0);
+        g && s.append(g);
 
-          var g = f.select("g"),
-            arrow = f.select("#arrow");
-          s.append(g);
-
-          // Increment score value from zero
-          $({numberValue: 0}).animate({numberValue: score}, {
-            duration: 2000,
-            easing: 'linear',
-            step: function() {
-              pagegauge.util.setElementScore('#gauge-score', this.numberValue.toFixed(1));
-            }
-          });
-          r = (score / 10) * 180;
-          arrow.animate( { transform: "r" + r + ", 287, 285" }, 2000 );
+        // Increment score value from zero
+        $({numberValue: 0}).animate({numberValue: score}, {
+          duration: 2000,
+          easing: 'linear',
+          step: function() {
+            pagegauge.util.setElementScore('#gauge-score', this.numberValue.toFixed(1));
+          }
         });
+        r = (score / 10) * 180;
+        arrow.animate({transform: "r" + r + ", 287, 285"}, 2000);
       }
     },
+    gaugeArrow: undefined,
     gauges: [],
     init: function() {
-      setTimeout(function() {
-        $('#gauge_url_form').on('submit', function(e) {
-          e.preventDefault();
-          e.stopPropagation();
+      $('.gauge_url_form').on('submit', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
 
-          var url = $('#gauge_url').val();
+        var url = $('.gauge_url:visible').val();
+        $('.gauge_url').val(url);
 
-          window.pagegauge.fetch(url);
-        });
-      }, 1000);
+        window.pagegauge.fetch(url);
+      });
+
+      Snap.load("img/gauge.svg", function (f) {
+        pagegauge.gaugeArrow = f;
+      });
     },
     createSite: function(url, success) {
       return $.ajax('http://api.pagegauge.io/sites.json', {
@@ -184,8 +186,8 @@ window.pagegauge = function() {
     },
     fetch: function(url) {
       pagegauge.createSite(url, function(data) {
-        window.pagegauge.gauge(data.site).
-          then(window.pagegauge.completed);
+        pagegauge.gauge(data.site).
+          then(pagegauge.completed);
       });
     },
     gauge: function(site) {
@@ -227,11 +229,11 @@ window.pagegauge = function() {
 
         score = score + ((importance[key] || 0)*(categoryScore/10));
       });
-      score+=3;
+
       overallScore = (Math.round(score*100)/100).toString().replace(/0+$/, '') ;
 
       pagegauge.util.setElementScore('#gauge-score', overallScore);
-      window.pagegauge.util.spinGauge(overallScore)
+      window.pagegauge.util.spinGauge(overallScore);
     }
   };
 }();
@@ -247,8 +249,10 @@ function getUUID() {
 window.pagegauge.addGauge(function contentQuantity(site) {
   var bodyNoScript = /\<body([\s\S]*?)\<\/body\>/.exec(site.body)[0].replace(/\<script([\s\S]*?)\<\/script\>/g, '').replace(/\son(.*?)\"([\s\S]*?)\"/g, ''),
     wordcount = $(bodyNoScript).text().replace(/\s+/g, " ").split(' ').length,
-    score = 1 - _.min([1, (_.max([0, wordcount - 500])/ 1000)]);
-  return Promise.resolve({name: 'contentQuality', category: 'design', result: {score: score, message: score }});
+    score = 1 - _.min([1, (_.max([0, wordcount - 500])/ 1000)]),
+    message = score == 0 ? 'Site has 2000 or more words' : score <= 0.5 ? 'Site has 1000 or more words' : 'Site has an appropriate amount of copy';
+
+  return Promise.resolve({name: 'contentQuality', category: 'design', result: {score: score, message: message }});
 });
 
 window.pagegauge.addGauge(function (site) {
@@ -268,16 +272,16 @@ window.pagegauge.addGauge(function (site) {
       var webKitStyles = _.every(prefixes, 'moz', true) ? 0.5 : 0,
         mozStyles = _.every(prefixes, 'moz', true) ? 0.13 : 0;
       numberscore = startScore + ieTagsPresent + webKitStyles + mozStyles;
-      resolve({name: 'browserCompatability', category: 'accessibility', result: {score: numberscore, message: numberscore}});
+      message = 'Site compatible with '+(numberscore*100)+'% of common browsers';
+      resolve({name: 'browserCompatability', category: 'accessibility', result: {score: numberscore, message: message}});
     });
   });
 });
 
-
 window.pagegauge.addGauge(function baseMenuSize(site) {
   var bodyNoScript = /\<body([\s\S]*?)\<\/body\>/.exec(site.body)[0].replace(/\<script([\s\S]*?)\<\/script\>/g, '').replace(/\son(.*?)\"([\s\S]*?)\"/g, '');
 
-  return Promise.resolve({name: 'baseMenuSize', category: 'navigation', result: $(window.pagegauge.util.getTopMenu($(bodyNoScript))).children().length > 7 ? {score: 0, message: 0} : {score: 1, message: 1}});
+  return Promise.resolve({name: 'baseMenuSize', category: 'navigation', result: $(window.pagegauge.util.getTopMenu($(bodyNoScript))).children().length > 7 ? {score: 0, message: 'Number of site menu bar options too high'} : {score: 1, message: 'Number of site menu bar options acceptable'}});
 });
 
 window.pagegauge.addGauge(function baseMenuDepth(site) {
@@ -298,22 +302,18 @@ window.pagegauge.addGauge(function baseMenuDepth(site) {
   };
   depth = testMenuChildrenDepth(proudestParentMenu);
 
-  var score = depth <= 3 ? {score: 1, message: 'good'} : depth < 6 ? {score: 0.5, message: 'okay'} : {score: 0, message: 'not great'};
+  var score = depth <= 3 ? {score: 1, message: 'Site menu bar depth within optimal range'} : depth < 6 ? {score: 0.5, message: 'Site menu bar depth within acceptable range'} : {score: 0, message: 'Site menu bar depth outside ideal range'};
 
   return Promise.resolve({name: 'baseMenuDepth', category: 'navigation', result: score});
 });
 
-//pagegauge.addGauge(function bodyLength(site) {
-//  return Promise.resolve({name: 'bodyLength', category: 'none', result: site.body.length});
-//});
-//
 pagegauge.addGauge(function isResponsive(site) {
   return new Promise(function(resolve) {
     pagegauge.util.fetchAllStyles(site, function(styles) {
       resolve({
         name: 'isResponsive',
         category: 'accessibility',
-        result: /@media/.test(styles) ? { score: 1, message: 'Is Responsive' } : { score: 0, message: 'Is Not Responsive' }
+        result: /@media/.test(styles) ? { score: 1, message: 'Site contains responsiveness tags' } : { score: 0, message: 'Site does not contains responsiveness tags' }
       });
     });
   });
@@ -325,7 +325,8 @@ pagegauge.addGauge(function hasColorSimplicity(site) {
       var numberscore,
         colors = {},
         hexes = styles.match(/#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})/g) || [],
-        rgbs = styles.match(/rgba?\(\d+,\s*\d+,\s*\d+(?:,\s*\d+(?:\.\d+)?)?\)/g) || [];
+        rgbs = styles.match(/rgba?\(\d+,\s*\d+,\s*\d+(?:,\s*\d+(?:\.\d+)?)?\)/g) || [],
+        message;
 
       hexes = hexes.concat.apply(hexes, rgbs);
 
@@ -336,10 +337,9 @@ pagegauge.addGauge(function hasColorSimplicity(site) {
         colors[key] += 1;
       }
 
-      console.log('We have colors!', colors);
       numberscore = _.min([1, _.max([0, (colors - 50)])/150]);
-
-      resolve({name: 'hasColorSimplicity', category: 'design', result: {score: numberscore, message: 'Has #'+Object.keys(colors).length+' colors'}});
+      message = numberscore == 0 ? 'Site has 150 or more colors' : numberscore <= 0.5 ? 'Site has 50 or more words' : 'Site has an appropriate color count';
+      resolve({name: 'hasColorSimplicity', category: 'design', result: {score: numberscore, message: message}});
     });
   });
 });
@@ -356,7 +356,7 @@ pagegauge.addGauge(function has404Page(site) {
         has404 = true;
       }
 
-      resolve({has404: 'has404', category: 'navigation', result: has404 ? {score: 1, message: 'Has a 404'} : {score: 0, message: 'No 404'}});
+      resolve({name: 'has404', category: 'navigation', result: has404 ? {score: 1, message: 'Site contains clear 404 error page'} : {score: 0, message: 'Site does not contain clear 404 error page'}});
     });
   });
 });
