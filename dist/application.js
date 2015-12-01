@@ -146,23 +146,31 @@ window.pagegauge = function() {
         el.text(score);
         el.removeClass([
           panelStates.danger.text, panelStates.info.text,
-          panelStates.warning.text, panelStates.success.text,].join(' '));
-        el.parents('.panel').removeClass([
-          panelStates.danger.panel, panelStates.info.panel,
-          panelStates.warning.panel, panelStates.success.panel,].join(' '));
-
+          panelStates.warning.text, panelStates.success.text].join(' '));
         if(score < 3){
           el.addClass(panelStates.danger.text);
-          el.parents('.panel').addClass(panelStates.danger.panel)
         } else if(score < 5) {
           el.addClass(panelStates.info.text);
-          el.parents('.panel').addClass(panelStates.info.panel)
         } else if(score < 7){
           el.addClass(panelStates.warning.text);
-          el.parents('.panel').addClass(panelStates.warning.panel)
         } else {
           el.addClass(panelStates.success.text);
-          el.parents('.panel').addClass(panelStates.success.panel)
+        }
+      },
+      setPanelScore: function(selector, score){
+        var el = $(selector);
+        el.removeClass([
+          panelStates.danger.panel, panelStates.info.panel,
+          panelStates.warning.panel, panelStates.success.panel].join(' '));
+
+        if(score < 3){
+          el.addClass(panelStates.danger.panel)
+        } else if(score < 5) {
+          el.addClass(panelStates.info.panel)
+        } else if(score < 7){
+          el.addClass(panelStates.warning.panel)
+        } else {
+          el.addClass(panelStates.success.panel)
         }
       },
       // Move arrow on Gauge
@@ -185,6 +193,10 @@ window.pagegauge = function() {
         });
         r = (score / 10) * 180;
         arrow.animate({transform: "r" + r + ", 287, 285"}, 2000);
+      },
+      setLoader: function(percentage){
+        $('#analyze .progress-bar').css('width', percentage + '%');
+        $('#analyze .progress-bar .sr-only').text(percentage+'% Complete');
       }
     },
     gaugeArrow: undefined,
@@ -213,16 +225,24 @@ window.pagegauge = function() {
     },
     fetch: function(url) {
       pagegauge.createSite(url, function(data) {
-        pagegauge.gauge(data.site).
-          then(pagegauge.completed);
+        pagegauge.util.goToState('analyze');
+        setTimeout(function(){
+          pagegauge.gauge(data.site).
+            then(pagegauge.completed);
+        }, 500);
       });
     },
     gauge: function(site) {
-      var started_gauges = [];
-      pagegauge.util.goToState('analyze');
+      var started_gauges = [],
+        loaded = 0;
 
       for(var i = 0; i < this.gauges.length; i++){
-        started_gauges.push(this.gauges[i](site));
+        var promise = this.gauges[i](site);
+        started_gauges.push(promise);
+        promise.then(function(){
+          loaded++;
+          pagegauge.util.setLoader(Math.round((loaded/pagegauge.gauges.length)*100));
+        });
       }
 
       return Promise.all(started_gauges);
@@ -230,9 +250,7 @@ window.pagegauge = function() {
     addGauge: function(gaugefn) {
       this.gauges.push(gaugefn);
     },
-    completed: function(results) {
-      console.log(results);
-
+    showReport: function(results){
       pagegauge.util.goToState('report');
       var categories = {}, score = 0,
         importance = {
@@ -252,7 +270,7 @@ window.pagegauge = function() {
       _.each(categories, function(value, key) {
         var categoryScore = Math.round((_.reduce(value, function(memo, num){ return memo + num; }, 0)/value.length) * 100)/10;
 
-        pagegauge.util.setElementScore('[name=' + key + ']', categoryScore);
+        pagegauge.util.setPanelScore('[name=' + key + ']', categoryScore);
 
         score = score + ((importance[key] || 0)*(categoryScore/10));
       });
@@ -261,6 +279,18 @@ window.pagegauge = function() {
 
       pagegauge.util.setElementScore('#gauge-score', overallScore);
       window.pagegauge.util.spinGauge(overallScore);
+    },
+    completed: function(results) {
+      $('.progress-wrapper').fadeOut();
+      $('.success-wrapper').fadeIn();
+      $('.contact_email_form').on('submit', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        if($('.contact_email:visible').val().length > 5){
+          //submit e-mail
+        }
+        pagegauge.showReport(results);
+      });
     }
   };
 }();
