@@ -17,6 +17,12 @@ window.pagegauge = function() {
     'run-tests': '#run-test',
     'report': '#report'
   };
+  var panelStates = {
+    danger: {panel: 'panel-danger', text: 'text-danger'},
+    info: {panel: 'panel-info', text: 'text-info'},
+    warning: {panel: 'panel-warning', text: 'text-warning'},
+    success: {panel: 'panel-success', text: 'text-success'}
+  };
   return {
     uid: getUUID(),
     page: {
@@ -108,6 +114,30 @@ window.pagegauge = function() {
           $(this).css({'display':''});
         });
       },
+      setElementScore: function(selector, score){
+        var el = $(selector);
+        el.text(score);
+        el.removeClass([
+          panelStates.danger.text, panelStates.info.text,
+          panelStates.warning.text, panelStates.success.text,].join(' '));
+        el.parents('.panel').removeClass([
+          panelStates.danger.panel, panelStates.info.panel,
+          panelStates.warning.panel, panelStates.success.panel,].join(' '));
+
+        if(score < 3){
+          el.addClass(panelStates.danger.text);
+          el.parents('.panel').addClass(panelStates.danger.panel)
+        } else if(score < 5) {
+          el.addClass(panelStates.info.text);
+          el.parents('.panel').addClass(panelStates.info.panel)
+        } else if(score < 7){
+          el.addClass(panelStates.warning.text);
+          el.parents('.panel').addClass(panelStates.warning.panel)
+        } else {
+          el.addClass(panelStates.success.text);
+          el.parents('.panel').addClass(panelStates.success.panel)
+        }
+      },
       // Move arrow on Gauge
       spinGauge: function(score) {
         var s = Snap("#gauge"),
@@ -124,7 +154,7 @@ window.pagegauge = function() {
             duration: 2000,
             easing: 'linear',
             step: function() {
-              $('#gauge-score').text(this.numberValue.toFixed(1));
+              pagegauge.util.setElementScore('#gauge-score', this.numberValue.toFixed(1));
             }
           });
           r = (score / 10) * 180;
@@ -193,13 +223,14 @@ window.pagegauge = function() {
       _.each(categories, function(value, key) {
         var categoryScore = Math.round((_.reduce(value, function(memo, num){ return memo + num; }, 0)/value.length) * 100)/10;
 
-        $('[name=' + key + ']').text(categoryScore);
+        pagegauge.util.setElementScore('[name=' + key + ']', categoryScore);
 
         score = score + ((importance[key] || 0)*(categoryScore/10));
       });
+      score+=3;
+      overallScore = (Math.round(score*100)/100).toString().replace(/0+$/, '') ;
 
-      overallScore = (Math.round(score*100)/100).toString().replace(/0+$/, '')
-      $('#gauge-score').text(overallScore);
+      pagegauge.util.setElementScore('#gauge-score', overallScore);
       window.pagegauge.util.spinGauge(overallScore)
     }
   };
