@@ -1,0 +1,47 @@
+@import "./variables.less";
+@import "./components.less";
+
+
+//
+// Custom styles
+//
+
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+
+  &.text-uppercase {
+    letter-spacing: .15em;
+  }
+
+  small,
+  .small {
+    font-weight: inherit;
+  }
+}
+
+h6, .h6 {
+  margin-bottom: (@spacer-y * .25);
+  color: lighten(@gray, 40%);
+  text-transform: uppercase;
+}
+
+.container-md {
+  max-width: 634px;
+}
+
+.container-sm {
+  max-width: 400px;
+}
+
+.gauge { 
+  max-width: 360px; 
+  margin: 0 auto;
+  margin-bottom: @spacer-y;
+}
+
+/* transforms */
+.translate-15 { transform: translateY(15px); }
+.translate-50 { transform: translateY(50px); }
+.translate-25 { transform: translateY(25px); }
+.translate-5 { transform: translateY(5%); }
+.translate-10 { transform: translateY(10%); }
