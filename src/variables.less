@@ -1,0 +1,231 @@
+@import "./bootstrap/variables.less";
+
+// icons
+@icon-font-path: "../fonts/";
+@icon-font-name: "toolkit-entypo";
+
+@body-bg:       #F3EED5;
+
+
+// Gray colors
+@gray-base:    #241103;
+@gray-darker:  mix(@body-bg,@gray-base, 13.5%); 
+@gray-dark:    mix(@body-bg,@gray-base, 20%); 
+@gray:         mix(@body-bg,@gray-base, 33.5%); 
+@gray-light:   mix(@body-bg,@gray-base, 66.7%);
+@gray-lighter: mix(@body-bg,@gray-base, 93.5%); 
+
+
+// Brand Colors
+@brand-primary: #F77F00;
+@brand-success: #0CB946;
+@brand-info:    #FA9700;
+@brand-warning: #FCC751;
+@brand-danger:  #D62828;
+
+// text
+@text-color: #331D0B;
+@letter-spacing-base: -.02em;
+
+//== Form states and alerts
+@state-success-text:             @brand-success;
+@state-success-bg:               @brand-success;
+@state-success-border:           darken(spin(@state-success-bg, -10), 5%);
+
+
+@state-info-text:                @brand-info;
+@state-info-bg:                  @brand-info;
+@state-info-border:              darken(spin(@state-info-bg, -10), 7%);
+
+@state-warning-text:             @brand-warning;
+@state-warning-bg:               @brand-warning;
+@state-warning-border:           darken(spin(@state-warning-bg, -10), 5%);
+
+@state-danger-text:              @brand-danger;
+@state-danger-bg:                @brand-danger;
+@state-danger-border:            darken(spin(@state-danger-bg, -10), 5%);
+
+
+@panel-info-text: #FFF;
+@panel-danger-text: #FFF;
+@panel-warning-text: #FFF;
+@panel-success-text: #FFF;
+
+@well-bg:                     #FBF9F1;
+@well-border:                 darken(@well-bg, 7%);
+
+
+
+
+
+
+// Spacing
+@spacer:            20px;
+@spacer-x:          @spacer;
+@spacer-y:          @spacer;
+@grid-gutter-width: 20px;
+
+// Typography
+@font-family-sans-serif: "PT Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+@font-family-serif:      "Lora", Georgia, "Times New Roman", Times, serif;
+@font-weight-base:       300;
+@line-height-base:       1.6;
+
+
+// For h1-h6
+@headings-font-family: @font-family-sans-serif;
+@headings-font-weight: 700;
+@headings-line-height: 1.2;
+@headings-small-color: inherit;
+
+
+// For .lead
+@lead-font-size:      floor((@font-size-base * 1.15));
+@lead-font-size-sm:   floor((@font-size-base * 1.25));
+@lead-font-weight:    300;
+@lead-line-height:    1.6;
+@lead-letter-spacing: 0;
+
+
+// Buttons
+@btn-font-size:      16px;
+@btn-font-weight:    700;
+@btn-text-transform: none;
+@btn-letter-spacing: normal;
+
+@btn-toolbar-divider-bg: @gray-lighter;
+
+
+// Container sizes
+@container-desktop:       (860px + @grid-gutter-width);
+@container-md:            @container-desktop;
+@container-large-desktop: (1000px + @grid-gutter-width);
+@container-lg:            @container-large-desktop;
+
+
+// nav-bordered
+@nav-bordered-color:              #fff;
+@nav-bordered-color-active:       @brand-primary;
+@nav-bordered-font-weight:        700;
+@nav-bordered-font-weight-active: 700;
+
+
+// nav header
+@nav-header-color: lighten(@gray, 35%);
+
+
+// Navbar
+@navbar-default-bg:                #fff;
+@navbar-default-link-active-color: #333;
+@navbar-default-link-active-bg:    transparent;
+@navbar-nav-active-font-weight:    inherit;
+@navbar-inverse-bg:                @block-bg-inverted;
+@navbar-inverse-border:            transparent;
+
+// Navbar - transparent
+@navbar-transparent-color:               #fff;
+@navbar-transparent-bg:                  transparent;
+@navbar-transparent-border:              transparent;
+@navbar-transparent-link-color:          @navbar-transparent-color;
+@navbar-transparent-link-hover-color:    darken(@navbar-transparent-color, 10%);
+@navbar-transparent-link-hover-bg:       transparent;
+@navbar-transparent-link-active-color:   @navbar-transparent-link-hover-color;
+@navbar-transparent-link-active-bg:      transparent;
+@navbar-transparent-link-disabled-color: lighten(@navbar-transparent-color, 10%);
+@navbar-transparent-link-disabled-bg:    transparent;
+@navbar-transparent-brand-color:         @navbar-transparent-color;
+@navbar-transparent-brand-hover-color:   darken(@navbar-transparent-color, 10%);
+@navbar-transparent-brand-hover-bg:      transparent;
+@navbar-transparent-toggle-hover-bg:     fade(@navbar-transparent-color, 10%);
+@navbar-transparent-toggle-icon-bar-bg:  @navbar-transparent-color;
+@navbar-transparent-toggle-border-color: @navbar-transparent-color;
+
+
+// Jumbotron
+@jumbotron-heading-font-size: ceil((@font-size-base * 4.5));
+
+
+// Block
+@block-color:              inherit;
+@block-bg:                 @body-bg;
+@block-color-inverted:     #E7DEAC;
+@block-bg-inverted:        #3A1F0B;
+@block-title-font-size-sm: floor((@font-size-base * 4));
+@block-title-font-size:    floor((@font-size-base * 3));
+@block-lead-font-size-sm:  floor((@font-size-base * 1.5));
+@block-lead-font-size:     floor((@font-size-base * 1.3));
+@block-vertical-padding:   10px;
+
+
+// Callouts
+@callout-padding:       15px 20px;
+@callout-border-radius: @border-radius-base;
+
+
+// Stage
+@stage-bg:                    @body-bg;
+@stage-shelf-width:           250px;
+@stage-toggle-offset:         20px;
+@stage-toggle-zindex:         100;
+@stage-toggle-padding:        4px 12px;
+@stage-toggle-color:          #fff;
+@stage-toggle-bg:             rgba(0,0,0,.1);
+@stage-toggle-border-radius:  @border-radius-base;
+@stage-toggle-hover-color:    #fff;
+@stage-toggle-hover-bg:       @link-color;
+
+
+// zoom
+@zoom-overlay-bg: #000;
+@zindex-zoom: 1080;
+
+
+// Custom forms
+@custom-select-color:       @input-color;
+@custom-select-bg:          @input-bg;
+@custom-select-disabled-bg: @input-bg-disabled;
+
+@custom-control-indicator-bg:     @input-bg;
+@custom-control-indicator-border: rgba(0,0,0,.15);
+
+@custom-control-indicator-checked-bg:      @brand-primary;
+@custom-control-indicator-checked-border:  @brand-primary;
+@custom-control-indicator-active-bg:       lighten(@brand-primary, 15%);
+@custom-control-indicator-active-border:   lighten(@brand-primary, 15%);
+@custom-control-indicator-disabled-bg:     darken(@input-bg, 5%);
+@custom-control-indicator-disabled-border: @custom-control-indicator-border;
+
+
+// misc typography
+@headings-font-weight: 100;
+@btn-font-weight:      300;
+@letter-spacing-base:  -.02em;
+
+
+// lead
+@lead-letter-spacing: @letter-spacing-base;
+@lead-font-size:      floor((@font-size-base * 1.5));
+
+
+// blocks
+@block-title-font-size-sm: floor((@font-size-base * 5.2));
+@block-title-font-size:    floor((@font-size-base * 4));
+@block-lead-font-size-sm:  floor((@font-size-base * 1.5));
+
+// navbars
+@navbar-default-toggle-border-color: transparent;
+@navbar-default-toggle-hover-bg:     transparent;
+@navbar-default-border:              transparent;
+@navbar-default-brand-color:         @gray-dark;
+
+@nav-bordered-color:              #000;
+@nav-bordered-color-active:       @brand-primary;
+@nav-bordered-font-weight:        300;
+@nav-bordered-font-weight-active: 700;
+
+@input-height-base: 39px;
+@input-border-focus: @brand-primary;
+
+
+// Stage
+@progress-bg:         rgba(0,0,0,.25);
