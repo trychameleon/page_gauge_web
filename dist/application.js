@@ -151,26 +151,22 @@ window.pagegauge = function() {
           el.addClass(panelStates.danger.text);
         } else if(score < 5) {
           el.addClass(panelStates.info.text);
-        } else if(score < 7){
+        } else if(score < 7.5){
           el.addClass(panelStates.warning.text);
         } else {
           el.addClass(panelStates.success.text);
         }
       },
-      setPanelScore: function(selector, score){
+      setGaugeScoreStyle: function(selector, score){
         var el = $(selector);
         el.removeClass([
           panelStates.danger.panel, panelStates.info.panel,
           panelStates.warning.panel, panelStates.success.panel].join(' '));
 
-        if(score < 3){
-          el.addClass(panelStates.danger.panel)
-        } else if(score < 5) {
-          el.addClass(panelStates.info.panel)
-        } else if(score < 7){
-          el.addClass(panelStates.warning.panel)
-        } else {
-          el.addClass(panelStates.success.panel)
+        if(score == 0){
+          el.addClass(panelStates.danger.text);
+        } else if(score < 0.6) {
+          el.addClass(panelStates.info.text);
         }
       },
       // Move arrow on Gauge
@@ -202,13 +198,13 @@ window.pagegauge = function() {
     gaugeArrow: undefined,
     gauges: [],
     init: function() {
-      $('.gauge_url_form').on('submit', function(e) {
+      $('.gauge_url_form:visible').on('submit', function(e) {
         e.preventDefault();
         e.stopPropagation();
 
         var url = $('.gauge_url:visible').val();
         $('.gauge_url').val(url);
-
+        $('[name=page_name]').text(url.replace(/(http(s*)\:\/\/)|(\/$)/g, ''));
         window.pagegauge.fetch(url);
       });
 
@@ -263,6 +259,7 @@ window.pagegauge = function() {
 
       _.each(results, function(value) {
         $('[name=' + value.name + ']').text(value.result.message);
+        pagegauge.util.setGaugeScoreStyle('[name=' + value.name + ']', value.result.score);
         categories[value.category] || (categories[value.category] = []);
         categories[value.category].push(value.result.score);
       });
@@ -270,12 +267,10 @@ window.pagegauge = function() {
       _.each(categories, function(value, key) {
         var categoryScore = Math.round((_.reduce(value, function(memo, num){ return memo + num; }, 0)/value.length) * 100)/10;
 
-        pagegauge.util.setPanelScore('[name=' + key + ']', categoryScore);
-
         score = score + ((importance[key] || 0)*(categoryScore/10));
       });
 
-      overallScore = (Math.round(score*100)/100).toString().replace(/0+$/, '') ;
+      overallScore = (Math.round(score*100)/100).toString().replace(/0+$/, '');
 
       pagegauge.util.setElementScore('#gauge-score', overallScore);
       window.pagegauge.util.spinGauge(overallScore);
@@ -347,7 +342,7 @@ window.pagegauge.addGauge(function autoPlaySounds(site) {
     message = 'Found an audio file that plays automatically';
   }
 
-  return Promise.resolve({name: 'autoPlaySounds', category: 'accessibility', result: {score: score, message: message}});
+  return Promise.resolve({name: 'autoPlaySounds', category: 'interactions', result: {score: score, message: message}});
 });
 
 window.pagegauge.addGauge(function baseMenuSize(site) {
@@ -445,7 +440,7 @@ pagegauge.addGauge(function numberOfActions(site) {
     if(length < 12) { score = 1.0; message = 'Low number of actions'; }
     else if(score < 24) { score = 0.5; message = 'A suitable number of actions'; }
 
-    resolve({name: 'numberOfActions', category: 'design', result: {score: score, message: message}});
+    resolve({name: 'numberOfActions', category: 'interactions', result: {score: score, message: message}});
   });
 });
 

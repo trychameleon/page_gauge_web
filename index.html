@@ -128,7 +128,7 @@
             <div class="gauge">
               <svg id="gauge" class="img-responsive" viewBox="0 0 575 320"></svg>
             </div>
-            <h2 class="m-y-0">Usability Score</h2>
+            <h2 class="m-y-0">Usability score for <span name="page_name"></span></h2>
             <div class="statcard p-y-md">
               <h1 class="block-title text-success statcard-number" id="gauge-score">
                 9.1
@@ -144,7 +144,7 @@
     <div class="container">
       <div class="row">
         <div class="col-sm-6 col-lg-3">
-          <div class="panel panel-success m-b-lg" name="accessibility">
+          <div class="panel panel-default m-b-lg" name="accessibility">
             <div class="panel-heading text-center">
               <h4 class="m-y-0 text-uppercase">Accessibility</h4>
             </div>
@@ -160,15 +160,12 @@
                 <tr>
                   <td name="browserCompatibility"></td>
                 </tr>
-                <tr>
-                  <td name="autoPlaySounds"></td>
-                </tr>
               </tbody>
             </table>
           </div>
         </div>
         <div class="col-sm-6 col-lg-3">
-          <div class="panel m-b-lg" name="navigation">
+          <div class="panel panel-default m-b-lg" name="navigation">
             <div class="panel-heading text-center"><h4 class="m-y-0 text-uppercase">Navigation</h4></div>
             <!--<div class="statcard p-a-md text-center">
               <h1 class="statcard-number text-info" name="navigation"></h1>
@@ -189,9 +186,8 @@
             </table>
           </div>
         </div>
-
         <div class="col-sm-6 col-lg-3">
-          <div class="panel m-b-lg" name="design">
+          <div class="panel panel-default m-b-lg" name="design">
             <div class="panel-heading text-center"><h4 class="m-y-0 text-uppercase">Design</h4></div>
             <!-- <div class="statcard p-a-md text-center">
               <h1 class="statcard-number text-warning" name="design"></h1>
@@ -205,15 +201,12 @@
                 <tr>
                   <td name="hasColorSimplicity"></td>
                 </tr>
-                <tr>
-                  <td name="numberOfActions"></td>
-                </tr>
               </tbody>
             </table>
           </div>
         </div>
          <div class="col-sm-6 col-lg-3">
-          <div class="panel panel-danger m-b-lg">
+          <div class="panel panel-default m-b-lg">
             <div class="panel-heading text-center"><h4 class="text-uppercase m-y-0">Interaction</h4></div>
             <!--<div class="statcard p-a-md text-center">
               <h1 class="statcard-number text-danger"  name="interactions"></h1>
@@ -222,7 +215,10 @@
             <table class="table">
               <tbody>
                 <tr>
-                  <td name="tooManyActions"></td>
+                  <td name="autoPlaySounds"></td>
+                </tr>
+                <tr>
+                  <td name="numberOfActions"></td>
                 </tr>
               </tbody>
             </table>
@@ -232,7 +228,7 @@
     </div>
     <div class="block m-b-lg" id="faq">
       <div class="container">
-        <form class="m-b gauge_url_form contact_email_form">
+        <form class="m-b contact_email_form">
           <div class="input-group input-group-lg">
             <input type="text" class="input-website form-control contact_email" placeholder="Enter your email for UX and usability advice once per month">
               <span class="input-group-btn">

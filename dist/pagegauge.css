@@ -4661,22 +4661,22 @@ button.list-group-item-danger.active:focus {
   border-bottom: 1px solid #ddd;
 }
 .panel-default {
-  border-color: #ddd;
+  border-color: #130902;
 }
 .panel-default > .panel-heading {
-  color: #4d3d2d;
-  background-color: #f5f5f5;
-  border-color: #ddd;
+  color: #fff;
+  background-color: #331D0B;
+  border-color: #130902;
 }
 .panel-default > .panel-heading + .panel-collapse > .panel-body {
-  border-top-color: #ddd;
+  border-top-color: #130902;
 }
 .panel-default > .panel-heading .badge {
-  color: #f5f5f5;
-  background-color: #4d3d2d;
+  color: #331D0B;
+  background-color: #fff;
 }
 .panel-default > .panel-footer + .panel-collapse > .panel-body {
-  border-bottom-color: #ddd;
+  border-bottom-color: #130902;
 }
 .panel-primary {
   border-color: #F77F00;
