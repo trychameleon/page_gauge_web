@@ -2,35 +2,6 @@
 
 Assess the usability of any website using automated analysis.
 
-```
-page_gauge_web/
-  ├── gulpfile.js
-  ├── package.json
-  ├── README.md
-  ├── less/
-  │   ├── bootstrap/
-  │   ├── custom/
-  │   ├── variables.less
-  │   └── pagegauge.less
-  ├── js/
-  │   ├── bootstrap/
-  │   └── custom/
-  ├── fonts/
-  │   ├── bootstrap-entypo.eot
-  │   ├── bootstrap-entypo.svg
-  │   ├── bootstrap-entypo.ttf
-  │   ├── bootstrap-entypo.woff
-  │   └── bootstrap-entypo.woff2
-  └── dist/
-      ├── application.js
-      ├── jquery.min.js
-      ├── likely.min.js
-      ├── pagegauge.css
-      ├── pagegauge.min.css
-      ├── toolkit-pagegauge.js
-      └── toolkit-pagegauge.min.js
-```
-
 #### Gulpfile.js
 
 To install Node visit [https://nodejs.org/download](https://nodejs.org/download/).
