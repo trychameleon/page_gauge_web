@@ -157,6 +157,22 @@ window.pagegauge = function() {
           el.addClass(panelStates.success.text);
         }
       },
+      setPanelStyle: function(selector, score){
+        var el = $(selector);
+        el.removeClass([
+          panelStates.danger.panel, panelStates.info.panel,
+          panelStates.warning.panel, panelStates.success.panel].join(' '));
+
+        if(score < 2.5){
+          el.addClass(panelStates.danger.panel)
+        } else if(score < 5) {
+          el.addClass(panelStates.info.panel)
+        } else if(score < 7.5){
+          el.addClass(panelStates.warning.panel)
+        } else {
+          el.addClass(panelStates.success.panel)
+        }
+      },
       setGaugeScoreStyle: function(selector, score){
         var el = $(selector);
         el.removeClass([
@@ -266,7 +282,7 @@ window.pagegauge = function() {
 
       _.each(categories, function(value, key) {
         var categoryScore = Math.round((_.reduce(value, function(memo, num){ return memo + num; }, 0)/value.length) * 100)/10;
-
+        pagegauge.util.setPanelStyle('[name=' + key + ']', categoryScore);
         score = score + ((importance[key] || 0)*(categoryScore/10));
       });
 
