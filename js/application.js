@@ -38,8 +38,8 @@ window.pagegauge = function() {
       fetchAllStyles: function(site, done) {
         var matches = /<head>([\s\S]*)<\/head>/.exec(site.body);
 
-        if(!matches.length)
-          return resolve('No head content found');
+        if(!matches || !matches.length)
+          return done('No head content found');
 
         var allStyles = '', sheets = [];
 
@@ -151,7 +151,7 @@ window.pagegauge = function() {
           el.addClass(panelStates.danger.text);
         } else if(score < 5) {
           el.addClass(panelStates.info.text);
-        } else if(score < 7.5){
+        } else if(score <= 7.5){
           el.addClass(panelStates.warning.text);
         } else {
           el.addClass(panelStates.success.text);
@@ -167,7 +167,7 @@ window.pagegauge = function() {
           el.addClass(panelStates.danger.panel)
         } else if(score < 5) {
           el.addClass(panelStates.info.panel)
-        } else if(score < 7.5){
+        } else if(score <= 7.5){
           el.addClass(panelStates.warning.panel)
         } else {
           el.addClass(panelStates.success.panel)
@@ -325,7 +325,7 @@ window.pagegauge.addGauge(function contentQuantity(site) {
 
 window.pagegauge.addGauge(function browserCompatibility(site) {
   var startScore = 0.2,
-    ieTagsPresent = /[\s]*\[if[\s]*IE/g.exec(site.body);
+    ieTagsPresent = !!/[\s]*\[if[\s]*IE/g.exec(site.body) ? 0.17 : 0;
 
   return new Promise(function(resolve) {
     pagegauge.util.fetchAllStyles(site, function(styles) {
@@ -358,7 +358,7 @@ window.pagegauge.addGauge(function autoPlaySounds(site) {
     message = 'Found an audio file that plays automatically';
   }
 
-  return Promise.resolve({name: 'autoPlaySounds', category: 'interactions', result: {score: score, message: message}});
+  return Promise.resolve({name: 'autoPlaySounds', category: 'interaction', result: {score: score, message: message}});
 });
 
 window.pagegauge.addGauge(function baseMenuSize(site) {
@@ -456,7 +456,7 @@ pagegauge.addGauge(function numberOfActions(site) {
     if(length < 12) { score = 1.0; message = 'Low number of actions'; }
     else if(score < 24) { score = 0.5; message = 'A suitable number of actions'; }
 
-    resolve({name: 'numberOfActions', category: 'interactions', result: {score: score, message: message}});
+    resolve({name: 'numberOfActions', category: 'interaction', result: {score: score, message: message}});
   });
 });
 
