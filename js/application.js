@@ -287,13 +287,14 @@ window.pagegauge = function() {
       });
 
       overallScore = (Math.round(score*100)/100).toString().replace(/0+$/, '');
-
       pagegauge.util.setElementScore('#gauge-score', overallScore);
       window.pagegauge.util.spinGauge(overallScore);
     },
     completed: function(results) {
       $('.progress-wrapper').fadeOut();
       $('.success-wrapper').fadeIn();
+      window.location = '#results';
+
       $('.contact_email_form').on('submit', function(e) {
         e.preventDefault();
         e.stopPropagation();
