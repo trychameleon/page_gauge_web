@@ -228,12 +228,15 @@ window.pagegauge = function() {
         pagegauge.gaugeArrow = f;
       });
     },
-    createSite: function(url, success) {
-      return $.ajax('http://api.pagegauge.io/sites.json', {
-        data: { uid: pagegauge.uid, url: url },
-        method: 'POST',
+    ajaxObject: function(method, name, options, success) {
+      return $.ajax('http://api.pagegauge.io/'+name+'.json', {
+        data: options,
+        method: method,
         success: success
       });
+    },
+    createSite: function(url, success) {
+      pagegauge.ajaxObject('POST', 'sites', { uid: pagegauge.uid, url: url }, success);
     },
     fetch: function(url) {
       pagegauge.createSite(url, function(data) {
@@ -293,14 +296,24 @@ window.pagegauge = function() {
     completed: function(results) {
       $('.progress-wrapper').fadeOut();
       $('.success-wrapper').fadeIn();
+
       window.location = '#results';
 
       $('.contact_email_form').on('submit', function(e) {
         e.preventDefault();
         e.stopPropagation();
-        if($('.contact_email:visible').val().length > 5){
-          //submit e-mail
+
+        var email = $('.contact_email:visible').val(),
+          url = $('#gauge_url').val(),
+          score = $('#gauge-score').text(),
+          options = { uid: pagegauge.uid, email: email, latest_url: url, latest_score: score };
+
+        if(email.length > 5) {
+          analytics.identify(pagegauge.uid, options);
+          pagegauge.ajaxObject('POST', 'users', options);
         }
+
+        analytics.track('Page Gauged', options);
         pagegauge.showReport(results);
       });
     }
@@ -469,8 +482,6 @@ pagegauge.addGauge(function has404Page(site) {
       var site404 = data404.site,
         has404Text = /sorry|error|404|mistake|not found|exist|oops/i,
         has404 = false;
-
-      console.log(site404);
 
       if(site404.code == 404 && has404Text.test(site404.body)) {
         has404 = true;
