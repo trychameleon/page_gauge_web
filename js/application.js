@@ -339,7 +339,7 @@ window.pagegauge.addGauge(function contentQuantity(site) {
   var body = pagegauge.util.sanitizedBody(site),
     wordcount = $(body).text().replace(/\s+/g, " ").split(' ').length,
     score = 1 - _.min([1, (_.max([0, wordcount - 500])/ 1000)]),
-    message = score == 0 ? 'Site has 2000 or more words' : score <= 0.5 ? 'Site has 1000 or more words' : 'Site has an appropriate amount of copy';
+    message = score == 0 ? 'Page has 2000 or more words' : score <= 0.5 ? 'Page has 1000 or more words' : 'Page has fewer than 1000 words';
 
   return Promise.resolve({name: 'contentQuality', category: 'design', result: {score: score, message: message }});
 });
@@ -371,12 +371,12 @@ window.pagegauge.addGauge(function browserCompatibility(site) {
 
 window.pagegauge.addGauge(function autoPlaySounds(site) {
   var $body = $(pagegauge.util.sanitizedBody(site)),
-    score = 1, message = 'No automatically playing sounds',
+    score = 1, message = 'Audio tags not set to autoplay',
     plays = false;
 
   if($body.find('audio[autoplay]').length) {
     score = 0;
-    message = 'Found an audio file that plays automatically';
+    message = 'Audio tags set to autoplay';
   }
 
   return Promise.resolve({name: 'autoPlaySounds', category: 'interaction', result: {score: score, message: message}});
@@ -385,7 +385,7 @@ window.pagegauge.addGauge(function autoPlaySounds(site) {
 window.pagegauge.addGauge(function baseMenuSize(site) {
   var body = pagegauge.util.sanitizedBody(site);
 
-  return Promise.resolve({name: 'baseMenuSize', category: 'navigation', result: $(window.pagegauge.util.getTopMenu($(body))).children().length > 7 ? {score: 0, message: 'Number of site menu bar options too high'} : {score: 1, message: 'Number of site menu bar options acceptable'}});
+  return Promise.resolve({name: 'baseMenuSize', category: 'navigation', result: $(window.pagegauge.util.getTopMenu($(body))).children().length > 7 ? {score: 0, message: 'Too many menu bar options'} : {score: 1, message: 'Number of menu bar options acceptable'}});
 });
 
 window.pagegauge.addGauge(function baseMenuDepth(site) {
@@ -406,7 +406,7 @@ window.pagegauge.addGauge(function baseMenuDepth(site) {
   };
   depth = testMenuChildrenDepth(proudestParentMenu);
 
-  var score = depth <= 3 ? {score: 1, message: 'Site menu bar depth within optimal range'} : depth < 6 ? {score: 0.5, message: 'Site menu bar depth within acceptable range'} : {score: 0, message: 'Site menu bar depth outside ideal range'};
+  var score = depth <= 3 ? {score: 1, message: 'Menu bar depth within ideal range'} : depth < 6 ? {score: 0.5, message: 'Menu bar slightly too deep'} : {score: 0, message: 'Menu bar too deep'};
 
   return Promise.resolve({name: 'baseMenuDepth', category: 'navigation', result: score});
 });
@@ -448,9 +448,9 @@ pagegauge.addGauge(function hasColorSimplicity(site) {
     var length = (Object.keys(colors));
 
     if(length < 8) { score = 1.0; message = 'Low number of colors'; }
-    else if(score < 16) { score = 0.75; message = 'A suitable number of colors'; }
-    else if(score < 24) { score = 0.50; message = 'A higher than normal number of colors'; }
-    else if(score < 32) { score = 0.25; message = 'A high number of colors';}
+    else if(score < 16) { score = 0.75; message = 'Number of colors within good range'; }
+    else if(score < 24) { score = 0.50; message = 'May be too many colors'; }
+    else if(score < 32) { score = 0.25; message = 'Very high number of colors';}
 
     resolve({name: 'hasColorSimplicity', category: 'design', result: {score: score, message: message}});
   });
@@ -459,7 +459,7 @@ pagegauge.addGauge(function hasColorSimplicity(site) {
 pagegauge.addGauge(function numberOfActions(site) {
   return new Promise(function(resolve) {
     var $body = $(pagegauge.util.sanitizedBody(site)),
-      score = 0, message = 'A high number of actions',
+      score = 0, message = 'Too many user actions available',
       actions = {};
 
     $body.find('a').each(function() {
@@ -474,8 +474,8 @@ pagegauge.addGauge(function numberOfActions(site) {
 
     var length = (Object.keys(actions));
 
-    if(length < 12) { score = 1.0; message = 'Low number of actions'; }
-    else if(score < 24) { score = 0.5; message = 'A suitable number of actions'; }
+    if(length < 12) { score = 1.0; message = 'Few user actions available'; }
+    else if(score < 24) { score = 0.5; message = 'Many user actions available'; }
 
     resolve({name: 'numberOfActions', category: 'interaction', result: {score: score, message: message}});
   });
