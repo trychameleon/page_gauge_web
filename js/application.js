@@ -49,7 +49,11 @@ window.pagegauge = function() {
           if(this.tagName === 'LINK' && $this.attr('rel') === 'stylesheet') {
             var url =  pagegauge.util.buildUrl(site, $this.attr('href'));
 
-            sheets.push(pagegauge.createSite(url));
+            sheets.push(new Promise(function(resolve) {
+              pagegauge.createSite(url, function(results){
+                resolve(results);
+              });
+            }));
           }
         });
 
@@ -311,6 +315,9 @@ window.pagegauge = function() {
         if(email.length > 5) {
           analytics.identify(pagegauge.uid, options);
           pagegauge.ajaxObject('POST', 'users', options);
+          window.location = '#results1';
+        } else {
+          window.location = '#results0';
         }
 
         analytics.track('Page Gauged', options);
