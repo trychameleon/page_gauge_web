@@ -240,7 +240,7 @@ window.pagegauge = function() {
       });
     },
     createSite: function(url, success) {
-      pagegauge.ajaxObject('POST', 'sites', { uid: pagegauge.uid, url: url }, success);
+      pagegauge.ajaxObject('POST', 'sites', { uid: getUUID(), url: url }, success);
     },
     fetch: function(url) {
       pagegauge.createSite(url, function(data) {
