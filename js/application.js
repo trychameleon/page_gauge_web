@@ -417,7 +417,7 @@ pagegauge.addGauge(function isResponsive(site) {
       resolve({
         name: 'isResponsive',
         category: 'accessibility',
-        result: /@media/.test(styles) ? { score: 1, message: 'Site contains responsiveness tags' } : { score: 0, message: 'Site does not contains responsiveness tags' }
+        result: /@media/.test(styles) ? { score: 1, message: 'Site contains responsiveness tags' } : { score: 0, message: 'Site does not contain responsiveness tags' }
       });
     });
   });
